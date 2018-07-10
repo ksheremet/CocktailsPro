@@ -5,7 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import ch.sheremet.katarina.cocktailspro.R;
 import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListFragment.OnBeverageSelected;
@@ -30,23 +33,27 @@ public class BeverageListAdapter extends RecyclerView.Adapter<BeverageListAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_beverage_item, parent, false);
+                .inflate(R.layout.beverage_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mBeverages.get(position);
-        holder.mIdView.setText(mBeverages.get(position).getThumbnailUrl());
-        holder.mContentView.setText(mBeverages.get(position).getName());
+        holder.mBeverage = mBeverages.get(position);
+        Picasso.get()
+                .load(mBeverages.get(position).getThumbnailUrl())
+                .error(R.drawable.vuquyv1468876052)
+                .placeholder(R.drawable.vuquyv1468876052)
+                .into(holder.mThumbnail);
+        holder.mBeverageName.setText(mBeverages.get(position).getName());
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        holder.mBeverageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onBeverageClicked(holder.mItem);
+                    mListener.onBeverageClicked(holder.mBeverage);
                 }
             }
         });
@@ -54,27 +61,24 @@ public class BeverageListAdapter extends RecyclerView.Adapter<BeverageListAdapte
 
     @Override
     public int getItemCount() {
-        if (mBeverages == null) return 0;
+        if (mBeverages == null) {
+            return 0;
+        }
         return mBeverages.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public Beverage mItem;
+        final View mBeverageView;
+        final ImageView mThumbnail;
+        final TextView mBeverageName;
+        Beverage mBeverage;
 
         // TODO: Use butterknife
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            mBeverageView = view;
+            mThumbnail = view.findViewById(R.id.beverage_poster_iv);
+            mBeverageName = view.findViewById(R.id.beverage_name_tv);
         }
     }
 }

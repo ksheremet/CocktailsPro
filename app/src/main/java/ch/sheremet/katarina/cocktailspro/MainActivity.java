@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
 
 
         //mApiManager.getAlcoholicBeverages(mBeveragesCallback);
-        //mApiManager.getNonAlcoholicBeverages(mBeveragesCallback);
-        mApiManager.getCocoaBeverages(mBeveragesCallback);
+        mApiManager.getNonAlcoholicBeverages(mBeveragesCallback);
+        //mApiManager.getCocoaBeverages(mBeveragesCallback);
     }
 
     @Override

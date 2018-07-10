@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TODO: Make it material -->
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/beverage_poster_iv"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/vuquyv1468876052"
+        app:layout_constraintDimensionRatio="3:4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/beverage_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        app:layout_constraintEnd_toEndOf="@+id/beverage_poster_iv"
+        app:layout_constraintStart_toStartOf="@+id/beverage_poster_iv"
+        app:layout_constraintTop_toBottomOf="@+id/beverage_poster_iv"
+        tools:text="Some cocktail" />
+</android.support.constraint.ConstraintLayout>
