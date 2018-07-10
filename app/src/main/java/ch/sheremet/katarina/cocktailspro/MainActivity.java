@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
 
             @Override
             public void onFailure(Call<BeveragesResponse> call, Throwable t) {
+                //TODO: Show error message to user
                 Log.e(TAG, "Error getting movies", t);
             }
         };
@@ -77,6 +78,6 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
 
     @Override
     public void onBeverageClicked(Beverage beverage) {
-        System.out.println(beverage);
+        Log.d(TAG, beverage.toString());
     }
 }

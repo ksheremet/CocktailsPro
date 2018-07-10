@@ -43,15 +43,10 @@ public class BeverageListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_beverage_list, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-
-            recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            mBeveragesAdapter = new BeverageListAdapter(mListener);
-            recyclerView.setAdapter(mBeveragesAdapter);
-        }
+        RecyclerView recyclerView = view.findViewById(R.id.list);
+        recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), mColumnCount));
+        mBeveragesAdapter = new BeverageListAdapter(mListener);
+        recyclerView.setAdapter(mBeveragesAdapter);
         return view;
     }
 

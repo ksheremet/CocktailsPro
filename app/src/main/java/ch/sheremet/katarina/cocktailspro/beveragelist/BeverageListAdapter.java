@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import ch.sheremet.katarina.cocktailspro.R;
 import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListFragment.OnBeverageSelected;
 import ch.sheremet.katarina.cocktailspro.model.Beverage;
@@ -46,6 +48,7 @@ public class BeverageListAdapter extends RecyclerView.Adapter<BeverageListAdapte
                 .placeholder(R.drawable.vuquyv1468876052)
                 .into(holder.mThumbnail);
         holder.mBeverageName.setText(mBeverages.get(position).getName());
+        holder.mBeverageView.setContentDescription(mBeverages.get(position).getName());
 
         holder.mBeverageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,16 +72,16 @@ public class BeverageListAdapter extends RecyclerView.Adapter<BeverageListAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         final View mBeverageView;
-        final ImageView mThumbnail;
-        final TextView mBeverageName;
+        @BindView(R.id.beverage_poster_iv)
+        ImageView mThumbnail;
+        @BindView(R.id.beverage_name_tv)
+        TextView mBeverageName;
         Beverage mBeverage;
 
-        // TODO: Use butterknife
         ViewHolder(View view) {
             super(view);
             mBeverageView = view;
-            mThumbnail = view.findViewById(R.id.beverage_poster_iv);
-            mBeverageName = view.findViewById(R.id.beverage_name_tv);
+            ButterKnife.bind(this, view);
         }
     }
 }
