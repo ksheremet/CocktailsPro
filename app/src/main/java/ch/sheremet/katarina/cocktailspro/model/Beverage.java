@@ -10,6 +10,14 @@ public class Beverage {
     @SerializedName("strDrinkThumb")
     private String mThumbnailUrl;
 
+    public String getName() {
+        return mName;
+    }
+
+    public String getThumbnailUrl() {
+        return mThumbnailUrl;
+    }
+
     //TODO(ksheremet): Use StringBuilder
     @Override
     public String toString() {

@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListFragment;
+import ch.sheremet.katarina.cocktailspro.model.Beverage;
 import ch.sheremet.katarina.cocktailspro.model.BeveragesResponse;
 import ch.sheremet.katarina.cocktailspro.utils.ApiManager;
 import ch.sheremet.katarina.cocktailspro.utils.IBeveragesApi;
@@ -15,12 +17,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BeverageListFragment.OnBeverageSelected {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private Callback<BeveragesResponse> mBeveragesCallback;
     private ApiManager mApiManager;
+    private BeverageListFragment mBeverageListFragment;
 
     public static final String BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1/";
 
@@ -46,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
                                    final Response<BeveragesResponse> response) {
                 if (response.isSuccessful()) {
                     Log.v(TAG, response.body().getBeverages().toString());
+                    mBeverageListFragment.setBeverageList(response.body().getBeverages());
+
                 } else {
                     Log.e(TAG, response.message());
                 }
@@ -57,9 +62,21 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        mBeverageListFragment = new BeverageListFragment();
+        //beverageListFragment.setRecipeStepsDesc(recipeStepsDesc);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.beverage_list_fragment, mBeverageListFragment)
+                .commit();
+
 
         //mApiManager.getAlcoholicBeverages(mBeveragesCallback);
         //mApiManager.getNonAlcoholicBeverages(mBeveragesCallback);
         mApiManager.getCocoaBeverages(mBeveragesCallback);
+    }
+
+    @Override
+    public void onBeverageClicked(Beverage beverage) {
+        System.out.println(beverage);
     }
 }

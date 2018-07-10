@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Cocktails Pro</string>
+    <string name="non_alcoholic_tab">Non-Alcoholic</string>
+    <string name="alcoholic_tab">Alcoholic</string>
+    <string name="cocoa_tab">Cocoa</string>
+    <string name="favourite_tab">Favourite</string>
 </resources>
