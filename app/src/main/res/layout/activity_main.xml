@@ -13,13 +13,24 @@
         <android.support.v7.widget.Toolbar
             android:layout_height="?attr/actionBarSize"
             android:layout_width="match_parent"
-            app:layout_scrollFlags="scroll|enterAlways"></android.support.v7.widget.Toolbar>
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+            <!-- Customize title fonts -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textSize="20sp"/>
+
+        </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabMode="scrollable">
+            app:tabMode="scrollable"
+            app:tabGravity="fill">
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
@@ -42,6 +53,12 @@
                 android:text="@string/favourite_tab" />
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
