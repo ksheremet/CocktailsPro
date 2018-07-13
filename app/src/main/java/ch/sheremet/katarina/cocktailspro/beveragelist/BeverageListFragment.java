@@ -45,6 +45,7 @@ public class BeverageListFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), mColumnCount));
+        recyclerView.setHasFixedSize(true);
         mBeveragesAdapter = new BeverageListAdapter(mListener);
         recyclerView.setAdapter(mBeveragesAdapter);
         return view;

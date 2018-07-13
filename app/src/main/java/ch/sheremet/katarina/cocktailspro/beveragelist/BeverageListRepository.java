@@ -1,0 +1,68 @@
+package ch.sheremet.katarina.cocktailspro.beveragelist;
+
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.util.Log;
+
+import java.util.List;
+
+import ch.sheremet.katarina.cocktailspro.model.Beverage;
+import ch.sheremet.katarina.cocktailspro.model.BeveragesResponse;
+import ch.sheremet.katarina.cocktailspro.utils.ApiManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class BeverageListRepository {
+
+    private static final String TAG = BeverageListRepository.class.getSimpleName();
+
+    private ApiManager mApiManager;
+    private Callback<BeveragesResponse> mBeveragesCallback;
+    private MutableLiveData<List<Beverage>> mBeverageList;
+
+    public BeverageListRepository(ApiManager apiManager) {
+        this.mApiManager = apiManager;
+        mBeverageList = new MutableLiveData<>();
+        mBeveragesCallback = new Callback<BeveragesResponse>() {
+            @Override
+            public void onResponse(final Call<BeveragesResponse> call,
+                                   final Response<BeveragesResponse> response) {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, response.body().getBeverages().toString());
+                    mBeverageList.setValue(response.body().getBeverages());
+
+                } else {
+                    Log.e(TAG, response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BeveragesResponse> call, Throwable t) {
+                //TODO: Show error message to user
+                Log.e(TAG, "Error getting movies", t);
+            }
+        };
+        fetchNonAlcoholicBeverages();
+    }
+
+    public void fetchNonAlcoholicBeverages() {
+        mApiManager.getNonAlcoholicBeverages(mBeveragesCallback);
+    }
+
+    public void fetchAlcoholicBeverages() {
+        mApiManager.getAlcoholicBeverages(mBeveragesCallback);
+    }
+
+    public void fetchCocoaBeverages() {
+        mApiManager.getCocoaBeverages(mBeveragesCallback);
+    }
+
+    public void fetchFavouriteBeverages() {
+        mApiManager.getCocoaBeverages(mBeveragesCallback);
+    }
+
+    public LiveData<List<Beverage>> getBeverageList() {
+        return mBeverageList;
+    }
+}
