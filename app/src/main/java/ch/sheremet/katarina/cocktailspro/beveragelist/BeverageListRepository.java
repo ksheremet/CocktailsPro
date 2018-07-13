@@ -20,6 +20,10 @@ public class BeverageListRepository {
     private ApiManager mApiManager;
     private Callback<BeveragesResponse> mBeveragesCallback;
     private MutableLiveData<List<Beverage>> mBeverageList;
+    //TODO: Implement cashing
+    // https://androidresearch.wordpress.com/2013/04/07/caching-objects-in-android-internal-storage/
+    // https://github.com/googlesamples/android-architecture-components/issues/55
+    // https://developer.android.com/reference/android/util/LruCache
 
     public BeverageListRepository(ApiManager apiManager) {
         this.mApiManager = apiManager;

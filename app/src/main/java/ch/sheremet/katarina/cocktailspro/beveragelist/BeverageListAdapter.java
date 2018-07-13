@@ -10,13 +10,13 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.sheremet.katarina.cocktailspro.R;
 import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListFragment.OnBeverageSelected;
 import ch.sheremet.katarina.cocktailspro.model.Beverage;
-
-import java.util.List;
 
 public class BeverageListAdapter extends RecyclerView.Adapter<BeverageListAdapter.ViewHolder> {
 
@@ -42,6 +42,7 @@ public class BeverageListAdapter extends RecyclerView.Adapter<BeverageListAdapte
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mBeverage = mBeverages.get(position);
+        // TODO: Check cashing
         Picasso.get()
                 .load(mBeverages.get(position).getThumbnailUrl())
                 .error(R.drawable.vuquyv1468876052)
