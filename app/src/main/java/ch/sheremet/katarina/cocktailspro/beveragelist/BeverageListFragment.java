@@ -22,10 +22,12 @@ import ch.sheremet.katarina.cocktailspro.model.Beverage;
  */
 public class BeverageListFragment extends Fragment {
 
+    private static final String TAG = BeverageListFragment.class.getSimpleName();
+
     // TODO: Customize parameters
-    private int mColumnCount = 2;
     private OnBeverageSelected mListener;
     private BeverageListAdapter mBeveragesAdapter;
+    private GridLayoutManager mLayoutManager;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -44,7 +46,9 @@ public class BeverageListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_beverage_list, container, false);
 
         RecyclerView recyclerView = view.findViewById(R.id.list);
-        recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), mColumnCount));
+        mLayoutManager = new GridLayoutManager(view.getContext(),
+                getResources().getInteger(R.integer.grid_columns));
+        recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setHasFixedSize(true);
         mBeveragesAdapter = new BeverageListAdapter(mListener);
         recyclerView.setAdapter(mBeveragesAdapter);
