@@ -16,11 +16,13 @@ public class BeverageListViewModel extends ViewModel {
 
     public BeverageListViewModel(BeverageListRepository beverageRepo) {
         mBeverageRepo = beverageRepo;
-        fetchNonAlcoholicBeverages();
-        mBeverageList = mBeverageRepo.getBeverageList();
-    }
+        }
 
     public LiveData<List<Beverage>> getBeverageList() {
+        if (mBeverageList == null) {
+            fetchNonAlcoholicBeverages();
+            mBeverageList = mBeverageRepo.getBeverageList();
+        }
         return mBeverageList;
     }
 

@@ -1,15 +1,13 @@
 package ch.sheremet.katarina.cocktailspro;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import java.util.List;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListFragment;
 import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListRepository;
 import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListViewModel;
@@ -25,9 +23,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity implements BeverageListFragment.OnBeverageSelected {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String FRAGMENT_STATE = "beverage_list_state";
+    private static final String TAB_STATE = "tab_state";
 
     private BeverageListFragment mBeverageListFragment;
     private BeverageListViewModel mViewModel;
+    @BindView(R.id.tabs)
+    TabLayout mTabLayout;
 
     public static final String BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1/";
 
@@ -36,7 +38,9 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // TODO(ksheremet): Init in dagger
+        ButterKnife.bind(this);
+
+        // TODO: Init in dagger
         ApiManager mApiManager = new ApiManager(new Retrofit.Builder()
                 .client(new OkHttpClient.Builder()
                         .addInterceptor(new HttpLoggingInterceptor()
@@ -46,31 +50,37 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
                 .addConverterFactory(GsonConverterFactory.create())
                 .build().create(IBeveragesApi.class));
 
-
-        mBeverageListFragment = new BeverageListFragment();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.beverage_list_fragment, mBeverageListFragment)
-                .commit();
-
-
-        //TODO: Maybe move logic to fragment
+        //TODO: Init in dagger
         BeverageListViewModelFactory factory = new BeverageListViewModelFactory(new BeverageListRepository(mApiManager));
-
         mViewModel = ViewModelProviders.of(this, factory).get(BeverageListViewModel.class);
-        //mViewModel.fetchNonAlcoholicBeverages();
-        initTabs();
-        mViewModel.getBeverageList().observe(this, new Observer<List<Beverage>>() {
-            @Override
-            public void onChanged(@Nullable List<Beverage> beverages) {
-                mBeverageListFragment.setBeverageList(beverages);
-            }
-        });
+
+        if (savedInstanceState != null) {
+            mBeverageListFragment = (BeverageListFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_STATE);
+            initTabs(savedInstanceState.getInt(TAB_STATE));
+        } else {
+            initTabs(0);
+            mBeverageListFragment = new BeverageListFragment(mViewModel);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.beverage_list_fragment, mBeverageListFragment)
+                    .commit();
+        }
     }
 
-    private void initTabs() {
-        TabLayout tabLayout = findViewById(R.id.tabs);
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Save the fragment's instance
+        getSupportFragmentManager().putFragment(outState, FRAGMENT_STATE, mBeverageListFragment);
+        outState.putInt(TAB_STATE, mTabLayout.getSelectedTabPosition());
+    }
+
+    private void initTabs(int tabPosition) {
+        TabLayout.Tab tab = mTabLayout.getTabAt(tabPosition);
+        if (tab != null) {
+            tab.select();
+        }
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
@@ -85,8 +95,8 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
                         break;
                     case 3:
                         mViewModel.fetchFavouriteBeverages();
-
                 }
+                mBeverageListFragment.moveToListBeginning();
             }
 
             @Override
