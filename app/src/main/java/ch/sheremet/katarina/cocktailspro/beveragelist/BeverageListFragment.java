@@ -26,24 +26,22 @@ import ch.sheremet.katarina.cocktailspro.model.Beverage;
  * Activities containing this fragment MUST implement the {@link OnBeverageSelected}
  * interface.
  */
-//TODO
+// TODO
 @SuppressLint("ValidFragment")
 public class BeverageListFragment extends Fragment {
 
-    public static final String BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1/";
     private static final String TAG = BeverageListFragment.class.getSimpleName();
     private static final String RECYCLER_VIEW_STATE = "recycler_view_state";
-    // TODO: Customize parameters
     private OnBeverageSelected mListener;
     private BeverageListAdapter mBeveragesAdapter;
     private RecyclerView mRecyclerView;
+
     private BeverageListViewModel mViewModel;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    @SuppressLint("ValidFragment")
     public BeverageListFragment(BeverageListViewModel viewModel) {
         this.mViewModel = viewModel;
     }

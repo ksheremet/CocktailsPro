@@ -1,24 +1,20 @@
 package ch.sheremet.katarina.cocktailspro;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListFragment;
-import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListRepository;
 import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListViewModel;
-import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListViewModelFactory;
+import ch.sheremet.katarina.cocktailspro.di.DaggerMainActivityComponent;
+import ch.sheremet.katarina.cocktailspro.di.MainActivityComponent;
+import ch.sheremet.katarina.cocktailspro.di.BeverageListViewModelModule;
 import ch.sheremet.katarina.cocktailspro.model.Beverage;
-import ch.sheremet.katarina.cocktailspro.utils.ApiManager;
-import ch.sheremet.katarina.cocktailspro.utils.IBeveragesApi;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements BeverageListFragment.OnBeverageSelected {
 
@@ -27,11 +23,12 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
     private static final String TAB_STATE = "tab_state";
 
     private BeverageListFragment mBeverageListFragment;
-    private BeverageListViewModel mViewModel;
+
+    @Inject
+    BeverageListViewModel mViewModel;
+
     @BindView(R.id.tabs)
     TabLayout mTabLayout;
-
-    public static final String BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +37,10 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
 
         ButterKnife.bind(this);
 
-        // TODO: Init in dagger
-        ApiManager mApiManager = new ApiManager(new Retrofit.Builder()
-                .client(new OkHttpClient.Builder()
-                        .addInterceptor(new HttpLoggingInterceptor()
-                                .setLevel(HttpLoggingInterceptor.Level.BODY))
-                        .build())
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build().create(IBeveragesApi.class));
-
-        //TODO: Init in dagger
-        BeverageListViewModelFactory factory = new BeverageListViewModelFactory(new BeverageListRepository(mApiManager));
-        mViewModel = ViewModelProviders.of(this, factory).get(BeverageListViewModel.class);
+        MainActivityComponent component = DaggerMainActivityComponent.builder()
+                .beverageListViewModelModule
+                        (new BeverageListViewModelModule(this)).build();
+        component.injectMainActivity(this);
 
         if (savedInstanceState != null) {
             mBeverageListFragment = (BeverageListFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_STATE);
