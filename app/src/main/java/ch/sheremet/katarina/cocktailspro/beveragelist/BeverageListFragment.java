@@ -1,11 +1,11 @@
 package ch.sheremet.katarina.cocktailspro.beveragelist;
 
-import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,7 +17,12 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import ch.sheremet.katarina.cocktailspro.R;
+import ch.sheremet.katarina.cocktailspro.di.BeverageListFragmentComponent;
+import ch.sheremet.katarina.cocktailspro.di.BeverageListViewModelModule;
+import ch.sheremet.katarina.cocktailspro.di.DaggerBeverageListFragmentComponent;
 import ch.sheremet.katarina.cocktailspro.model.Beverage;
 
 /**
@@ -26,8 +31,6 @@ import ch.sheremet.katarina.cocktailspro.model.Beverage;
  * Activities containing this fragment MUST implement the {@link OnBeverageSelected}
  * interface.
  */
-// TODO
-@SuppressLint("ValidFragment")
 public class BeverageListFragment extends Fragment {
 
     private static final String TAG = BeverageListFragment.class.getSimpleName();
@@ -36,14 +39,14 @@ public class BeverageListFragment extends Fragment {
     private BeverageListAdapter mBeveragesAdapter;
     private RecyclerView mRecyclerView;
 
-    private BeverageListViewModel mViewModel;
+    @Inject
+    BeverageListViewModel mViewModel;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public BeverageListFragment(BeverageListViewModel viewModel) {
-        this.mViewModel = viewModel;
+    public BeverageListFragment() {
     }
 
     public void setBeverageList(List<Beverage> mBeverageList) {
@@ -55,11 +58,15 @@ public class BeverageListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // Retain this fragment across configuration changes.
         setRetainInstance(true);
+        BeverageListFragmentComponent component = DaggerBeverageListFragmentComponent.builder()
+                .beverageListViewModelModule
+                        (new BeverageListViewModelModule(getActivity())).build();
+        component.injectBeverageListFragment(this);
         Log.d(TAG, "Fragment onCreate()");
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_beverage_list, container, false);
 

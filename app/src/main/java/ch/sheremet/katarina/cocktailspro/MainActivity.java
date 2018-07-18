@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
             initTabs(savedInstanceState.getInt(TAB_STATE));
         } else {
             initTabs(0);
-            mBeverageListFragment = new BeverageListFragment(mViewModel);
+            mBeverageListFragment = new BeverageListFragment();
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.beverage_list_fragment, mBeverageListFragment)
