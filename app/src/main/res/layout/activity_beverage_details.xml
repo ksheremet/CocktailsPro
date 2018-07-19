@@ -41,11 +41,9 @@
         android:layout_height="match_parent"
         app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
 
-        <android.support.constraint.ConstraintLayout
+        <FrameLayout
+            android:id="@+id/beverage_details_fragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".beveragedetails.BeverageDetailsActivity">
-
-        </android.support.constraint.ConstraintLayout>
+            android:layout_height="match_parent"/>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
