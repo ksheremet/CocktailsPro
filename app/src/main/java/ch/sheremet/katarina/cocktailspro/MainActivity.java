@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ch.sheremet.katarina.cocktailspro.beveragedetails.BeverageDetailsActivity;
 import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListFragment;
 import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListViewModel;
 import ch.sheremet.katarina.cocktailspro.di.DaggerMainActivityComponent;
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
 
     @Override
     public void onBeverageClicked(Beverage beverage) {
+        BeverageDetailsActivity.startActivity(this, beverage);
         Log.d(TAG, beverage.toString());
     }
 
