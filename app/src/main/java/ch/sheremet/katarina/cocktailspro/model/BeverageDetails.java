@@ -1,19 +1,15 @@
 package ch.sheremet.katarina.cocktailspro.model;
 
 
-import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
 public class BeverageDetails {
-    @SerializedName("idDrink")
     private String mId;
-    @SerializedName("strDrink")
     private String mName;
-    @SerializedName("strInstructions")
     private String mInstructions;
-    @SerializedName("strGlass")
     private String mGlassType;
-    @SerializedName("strDrinkThumb")
     private String mThumbnailUrl;
+    private List<Ingredients> mIngredients;
 
     public String getId() {
         return mId;
@@ -55,7 +51,14 @@ public class BeverageDetails {
         this.mThumbnailUrl = mThumbnailUrl;
     }
 
-    //TODO: StringBuilder
+    public List<Ingredients> getIngredients() {
+        return mIngredients;
+    }
+
+    public void setIngredients(List<Ingredients> mIngredients) {
+        this.mIngredients = mIngredients;
+    }
+
     @Override
     public String toString() {
         return "BeverageDetails{" +
@@ -64,6 +67,7 @@ public class BeverageDetails {
                 ", mInstructions='" + mInstructions + '\'' +
                 ", mGlassType='" + mGlassType + '\'' +
                 ", mThumbnailUrl='" + mThumbnailUrl + '\'' +
+                ", mIngredients=" + mIngredients +
                 '}';
     }
 }

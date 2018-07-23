@@ -28,7 +28,7 @@ public class BeverageDetailsRepository {
             public void onResponse(Call<BeverageDetailsResponse> call, Response<BeverageDetailsResponse> response) {
                 if (response.isSuccessful()) {
                     Log.d(TAG, response.body().getBeverageDetail().toString());
-                    mBeverageDetails.setValue(response.body().getBeverageDetail().get(0));
+                    mBeverageDetails.setValue(response.body().getBeverageDetail());
                 }
             }
 

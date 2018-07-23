@@ -1,8 +1,12 @@
 package ch.sheremet.katarina.cocktailspro.di;
 
+import com.google.gson.GsonBuilder;
+
 import javax.inject.Singleton;
 
+import ch.sheremet.katarina.cocktailspro.model.BeverageDetails;
 import ch.sheremet.katarina.cocktailspro.utils.ApiManager;
+import ch.sheremet.katarina.cocktailspro.utils.BeverageDetailsDeserializer;
 import ch.sheremet.katarina.cocktailspro.utils.IBeveragesApi;
 import dagger.Module;
 import dagger.Provides;
@@ -51,6 +55,8 @@ public class ApiModule {
     @Singleton
     @Provides
     public GsonConverterFactory gsonConverterFactory() {
-        return GsonConverterFactory.create();
+        GsonBuilder gsonBuilder =
+                new GsonBuilder().registerTypeAdapter(BeverageDetails.class, new BeverageDetailsDeserializer());
+        return GsonConverterFactory.create(gsonBuilder.create());
     }
 }
