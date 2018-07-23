@@ -40,7 +40,7 @@ public class BeverageDetailsActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             mDetailsFragment = (BeverageDetailsFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_STATE);
         } else {
-            mDetailsFragment = BeverageDetailsFragment.newInstance();
+            mDetailsFragment = BeverageDetailsFragment.newInstance(mBeverage.getId());
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.beverage_details_fragment, mDetailsFragment)

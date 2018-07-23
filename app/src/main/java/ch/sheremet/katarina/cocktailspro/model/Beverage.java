@@ -43,6 +43,10 @@ public class Beverage implements Parcelable {
         }
     };
 
+    public String getId() {
+        return mId;
+    }
+
     public String getName() {
         return mName;
     }

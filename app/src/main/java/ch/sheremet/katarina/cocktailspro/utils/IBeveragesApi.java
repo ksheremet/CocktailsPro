@@ -1,5 +1,6 @@
 package ch.sheremet.katarina.cocktailspro.utils;
 
+import ch.sheremet.katarina.cocktailspro.model.BeverageDetailsResponse;
 import ch.sheremet.katarina.cocktailspro.model.BeveragesResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -11,4 +12,7 @@ public interface IBeveragesApi {
 
     @GET("filter.php?")
     Call<BeveragesResponse> getByCategory(@Query("c") String searchAttribute);
+
+    @GET("lookup.php?")
+    Call<BeverageDetailsResponse> getById(@Query("i") String searchAttribute);
 }

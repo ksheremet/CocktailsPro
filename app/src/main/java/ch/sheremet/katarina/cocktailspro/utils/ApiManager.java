@@ -1,5 +1,6 @@
 package ch.sheremet.katarina.cocktailspro.utils;
 
+import ch.sheremet.katarina.cocktailspro.model.BeverageDetailsResponse;
 import ch.sheremet.katarina.cocktailspro.model.BeveragesResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,5 +29,10 @@ public class ApiManager {
     public void getCocoaBeverages(final Callback<BeveragesResponse> callback) {
         Call<BeveragesResponse> alcoholicBeveragesCall = service.getByCategory(COCOA_BEVERAGES_PATH);
         alcoholicBeveragesCall.enqueue(callback);
+    }
+
+    public void getBeverageByID(final Callback<BeverageDetailsResponse> callback, final String id) {
+        Call<BeverageDetailsResponse> beverageDetailsCall = service.getById(id);
+        beverageDetailsCall.enqueue(callback);
     }
 }

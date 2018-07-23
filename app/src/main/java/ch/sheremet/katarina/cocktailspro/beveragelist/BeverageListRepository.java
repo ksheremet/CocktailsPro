@@ -44,7 +44,7 @@ public class BeverageListRepository {
             @Override
             public void onFailure(Call<BeveragesResponse> call, Throwable t) {
                 //TODO: Show error message to user
-                Log.e(TAG, "Error getting movies", t);
+                Log.e(TAG, "Error getting beverages", t);
             }
         };
         fetchNonAlcoholicBeverages();
