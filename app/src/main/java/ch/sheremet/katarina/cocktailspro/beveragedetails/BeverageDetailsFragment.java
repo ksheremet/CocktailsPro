@@ -10,14 +10,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import ch.sheremet.katarina.cocktailspro.R;
 import ch.sheremet.katarina.cocktailspro.di.BeverageDetailsFragmentComponent;
 import ch.sheremet.katarina.cocktailspro.di.BeverageDetailsViewModelModule;
 import ch.sheremet.katarina.cocktailspro.di.DaggerBeverageDetailsFragmentComponent;
 import ch.sheremet.katarina.cocktailspro.model.BeverageDetails;
+import ch.sheremet.katarina.cocktailspro.model.Ingredients;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +35,24 @@ public class BeverageDetailsFragment extends Fragment {
 
     private static final String TAG = BeverageDetailsFragment.class.getSimpleName();
     private static final String DRINK_ID_PARAM = "drink_id";
+
+    @BindView(R.id.detail_beverage_name_tv)
+    TextView mName;
+    @BindView(R.id.add_to_favourite_iv)
+    ImageView mAddToFavourite;
+    @BindView(R.id.details_ingredients_tv)
+    TextView mIngredients;
+    @BindView(R.id.detail_instructions_tv)
+    TextView mInstructions;
+    @BindView(R.id.detail_glass_tv)
+    TextView mGlassType;
+    @BindView(R.id.detail_beverage_thumbnail_iv)
+    ImageView mThumbnail;
+    @BindView(R.id.detail_category_tv)
+    TextView mCagegory;
+    @BindView(R.id.detail_iba_tv)
+    TextView mIba;
+
 
     @Inject
     BeverageDetailsViewModel mViewModel;
@@ -73,19 +98,40 @@ public class BeverageDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_beverage_details, container, false);
-
-
+        ButterKnife.bind(this, view);
         mViewModel.getBeverageDetails().observe(this, new Observer<BeverageDetails>() {
             @Override
             public void onChanged(@Nullable BeverageDetails beverageDetails) {
                 if (beverageDetails != null) {
                     Log.d(TAG, beverageDetails.toString());
+                    updateUI(beverageDetails);
                 }
             }
         });
 
-
         return view;
+    }
+
+    private void updateUI(BeverageDetails beverageDetails) {
+        mName.setText(beverageDetails.getName());
+        mGlassType.setText(beverageDetails.getGlassType());
+        mInstructions.setText(beverageDetails.getInstructions());
+        mIba.setText(beverageDetails.getIBA());
+        mCagegory.setText(beverageDetails.getCategory());
+
+        StringBuilder builder = new StringBuilder();
+        for (Ingredients ingredients : beverageDetails.getIngredients()) {
+            builder.append(ingredients.getIngredient())
+                    .append(": ")
+                    .append(ingredients.getMeasure())
+                    .append("\n");
+
+        }
+        if (!builder.toString().isEmpty()) {
+            mIngredients.setText(builder.toString());
+        }
+
+        Picasso.get().load(beverageDetails.getThumbnailUrl()).into(mThumbnail);
     }
 
 }

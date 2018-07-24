@@ -66,10 +66,20 @@ public class BeverageDetailsDeserializer implements JsonDeserializer<BeverageDet
             beverageDetails.setThumbnailUrl(jsonObject.get("strDrinkThumb").getAsString());
         }
 
-        for (int i=1; i<=15; i++) {
+        if (jsonObject.has("strCategory")) {
+            beverageDetails.setCategory(jsonObject.get("strCategory").getAsString());
+        }
+
+        if (jsonObject.has("strIBA") && !jsonObject.get("strIBA").isJsonNull()) {
+            beverageDetails.setIBA(jsonObject.get("strIBA").getAsString());
+        } else {
+            beverageDetails.setIBA("-");
+        }
+
+        for (int i = 1; i <= 15; i++) {
             if (jsonObject.has("strIngredient" + i) && jsonObject.has("strMeasure" + i)) {
                 String ingredient = jsonObject.get("strIngredient" + i).getAsString().trim();
-                String measure = jsonObject.get("strMeasure" +i).getAsString().trim();
+                String measure = jsonObject.get("strMeasure" + i).getAsString().trim();
                 if (!ingredient.isEmpty() || !measure.isEmpty()) {
                     ingredientsList.add(new Ingredients(ingredient, measure));
                 }

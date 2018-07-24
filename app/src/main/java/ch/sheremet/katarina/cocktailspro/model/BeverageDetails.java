@@ -9,6 +9,8 @@ public class BeverageDetails {
     private String mInstructions;
     private String mGlassType;
     private String mThumbnailUrl;
+    private String mCategory;
+    private String mIBA;
     private List<Ingredients> mIngredients;
 
     public String getId() {
@@ -59,6 +61,22 @@ public class BeverageDetails {
         this.mIngredients = mIngredients;
     }
 
+    public String getIBA() {
+        return mIBA;
+    }
+
+    public void setIBA(String mIBA) {
+        this.mIBA = mIBA;
+    }
+
+    public String getCategory() {
+        return mCategory;
+    }
+
+    public void setCategory(String mCategory) {
+        this.mCategory = mCategory;
+    }
+
     @Override
     public String toString() {
         return "BeverageDetails{" +
@@ -67,6 +85,8 @@ public class BeverageDetails {
                 ", mInstructions='" + mInstructions + '\'' +
                 ", mGlassType='" + mGlassType + '\'' +
                 ", mThumbnailUrl='" + mThumbnailUrl + '\'' +
+                ", mCategory='" + mCategory + '\'' +
+                ", mIBA='" + mIBA + '\'' +
                 ", mIngredients=" + mIngredients +
                 '}';
     }

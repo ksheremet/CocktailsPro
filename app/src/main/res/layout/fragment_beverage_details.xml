@@ -3,19 +3,182 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/colorPrimaryLight">
+
+    <!-- TODO: Move to styles and strings -->
+
+    <ImageView
+        android:id="@+id/detail_beverage_thumbnail_iv"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="3:4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:id="@+id/detail_beverage_name_tv"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Hello Fragment"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/detail_beverage_thumbnail_iv"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Yummy cocktail" />
+
+    <TextView
+        android:id="@+id/detail_instructions_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/details_ingredients_tv"
+        app:layout_constraintTop_toBottomOf="@+id/instructions_laber"
+        tools:text="Take orange juice and add" />
+
+
+    <ImageView
+        android:id="@+id/add_to_favourite_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/detail_beverage_thumbnail_iv"
+        app:layout_constraintTop_toBottomOf="@+id/detail_beverage_name_tv"
+        app:srcCompat="@android:drawable/btn_star_big_off" />
+
+    <TextView
+        android:id="@+id/add_to_favourite_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Add to Favourites"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/add_to_favourite_iv"
+        app:layout_constraintStart_toStartOf="@+id/add_to_favourite_iv"
+        app:layout_constraintTop_toBottomOf="@+id/add_to_favourite_iv" />
+
+    <TextView
+        android:id="@+id/ingredients_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Ingredients"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/detail_beverage_thumbnail_iv"
+        app:layout_constraintTop_toBottomOf="@+id/detail_beverage_thumbnail_iv"
+        tools:text="Ingredients" />
+
+    <TextView
+        android:id="@+id/details_ingredients_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/ingredients_label"
+        app:layout_constraintTop_toBottomOf="@+id/ingredients_label"
+        tools:text="Salt, Juice" />
+
+    <TextView
+        android:id="@+id/instructions_laber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Instructions"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/details_ingredients_tv"
+        app:layout_constraintTop_toBottomOf="@+id/details_ingredients_tv"
+        tools:text="Instructions" />
+
+    <TextView
+        android:id="@+id/glass_type_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Type of Glass: "
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/detail_instructions_tv"
+        app:layout_constraintTop_toBottomOf="@+id/detail_instructions_tv" />
+
+    <TextView
+        android:id="@+id/detail_glass_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/glass_type_label"
+        app:layout_constraintStart_toEndOf="@+id/glass_type_label"
+        app:layout_constraintTop_toTopOf="@+id/glass_type_label"
+        tools:text="Coctails Glass" />
+
+    <TextView
+        android:id="@+id/detail_category_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Category: "
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/glass_type_label"
+        app:layout_constraintTop_toBottomOf="@+id/glass_type_label" />
+
+    <TextView
+        android:id="@+id/detail_category_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="TextView"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/detail_category_label"
+        app:layout_constraintStart_toEndOf="@+id/detail_category_label"
+        app:layout_constraintTop_toTopOf="@+id/detail_category_label"
+        tools:text="Category" />
+
+    <TextView
+        android:id="@+id/iba_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:text="IBA: "
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/detail_category_label"
+        app:layout_constraintTop_toBottomOf="@+id/detail_category_label" />
+
+    <TextView
+        android:id="@+id/detail_iba_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iba_label"
+        app:layout_constraintStart_toEndOf="@+id/iba_label"
+        app:layout_constraintTop_toTopOf="@+id/iba_label"
+        tools:text="IBA" />
 </android.support.constraint.ConstraintLayout>
