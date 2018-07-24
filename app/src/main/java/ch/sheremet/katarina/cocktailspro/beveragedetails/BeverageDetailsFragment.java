@@ -19,6 +19,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import ch.sheremet.katarina.cocktailspro.R;
 import ch.sheremet.katarina.cocktailspro.di.BeverageDetailsFragmentComponent;
 import ch.sheremet.katarina.cocktailspro.di.BeverageDetailsViewModelModule;
@@ -53,6 +54,7 @@ public class BeverageDetailsFragment extends Fragment {
     @BindView(R.id.detail_iba_tv)
     TextView mIba;
 
+    private boolean mIsFavourite=false;
 
     @Inject
     BeverageDetailsViewModel mViewModel;
@@ -109,6 +111,8 @@ public class BeverageDetailsFragment extends Fragment {
             }
         });
 
+        setFavouriteButtonBackground(mIsFavourite);
+
         return view;
     }
 
@@ -132,6 +136,26 @@ public class BeverageDetailsFragment extends Fragment {
         }
 
         Picasso.get().load(beverageDetails.getThumbnailUrl()).into(mThumbnail);
+    }
+
+    @OnClick(R.id.add_to_favourite_iv)
+    protected void onFavouriteClick() {
+        if (mIsFavourite) {
+            mIsFavourite = false;
+            Log.d(TAG, "Remove movie from favourites");
+        } else {
+            mIsFavourite = true;
+            Log.d(TAG, "Add movie to favourites");
+        }
+        setFavouriteButtonBackground(mIsFavourite);
+    }
+
+    private void setFavouriteButtonBackground(boolean isFavourite) {
+        if (isFavourite) {
+            mAddToFavourite.setImageResource(android.R.drawable.btn_star_big_on);
+        } else {
+            mAddToFavourite.setImageResource(android.R.drawable.btn_star_big_off);
+        }
     }
 
 }
