@@ -24,6 +24,7 @@ import ch.sheremet.katarina.cocktailspro.R;
 import ch.sheremet.katarina.cocktailspro.di.BeverageDetailsFragmentComponent;
 import ch.sheremet.katarina.cocktailspro.di.BeverageDetailsViewModelModule;
 import ch.sheremet.katarina.cocktailspro.di.DaggerBeverageDetailsFragmentComponent;
+import ch.sheremet.katarina.cocktailspro.model.Beverage;
 import ch.sheremet.katarina.cocktailspro.model.BeverageDetails;
 import ch.sheremet.katarina.cocktailspro.model.Ingredients;
 
@@ -35,7 +36,7 @@ import ch.sheremet.katarina.cocktailspro.model.Ingredients;
 public class BeverageDetailsFragment extends Fragment {
 
     private static final String TAG = BeverageDetailsFragment.class.getSimpleName();
-    private static final String DRINK_ID_PARAM = "drink_id";
+    private static final String BEVERAGE_PARAM = "drink_id";
 
     @BindView(R.id.detail_beverage_name_tv)
     TextView mName;
@@ -54,7 +55,8 @@ public class BeverageDetailsFragment extends Fragment {
     @BindView(R.id.detail_iba_tv)
     TextView mIba;
 
-    private boolean mIsFavourite=false;
+    private boolean mIsFavourite = false;
+    private Beverage mBeverage;
 
     @Inject
     BeverageDetailsViewModel mViewModel;
@@ -69,10 +71,10 @@ public class BeverageDetailsFragment extends Fragment {
      *
      * @return A new instance of fragment BeverageDetailsFragment.
      */
-    public static BeverageDetailsFragment newInstance(@NonNull final String id) {
+    public static BeverageDetailsFragment newInstance(@NonNull final Beverage beverage) {
         BeverageDetailsFragment fragment = new BeverageDetailsFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(DRINK_ID_PARAM, id);
+        bundle.putParcelable(BEVERAGE_PARAM, beverage);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -88,8 +90,8 @@ public class BeverageDetailsFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            String id = bundle.getString(DRINK_ID_PARAM);
-            mViewModel.fetchBeverageByID(id);
+            mBeverage = bundle.getParcelable(BEVERAGE_PARAM);
+            mViewModel.fetchBeverageByID(mBeverage.getId());
         } else {
             getActivity().finish();
         }
@@ -142,9 +144,11 @@ public class BeverageDetailsFragment extends Fragment {
     protected void onFavouriteClick() {
         if (mIsFavourite) {
             mIsFavourite = false;
+            mViewModel.deleteBeverage(mBeverage);
             Log.d(TAG, "Remove movie from favourites");
         } else {
             mIsFavourite = true;
+            mViewModel.saveBeverage(mBeverage);
             Log.d(TAG, "Add movie to favourites");
         }
         setFavouriteButtonBackground(mIsFavourite);
@@ -157,5 +161,4 @@ public class BeverageDetailsFragment extends Fragment {
             mAddToFavourite.setImageResource(android.R.drawable.btn_star_big_off);
         }
     }
-
 }

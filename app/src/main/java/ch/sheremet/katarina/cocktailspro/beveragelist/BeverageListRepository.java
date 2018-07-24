@@ -8,6 +8,7 @@ import java.util.List;
 
 import ch.sheremet.katarina.cocktailspro.model.Beverage;
 import ch.sheremet.katarina.cocktailspro.model.BeveragesResponse;
+import ch.sheremet.katarina.cocktailspro.model.database.AppDatabase;
 import ch.sheremet.katarina.cocktailspro.utils.ApiManager;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,6 +19,7 @@ public class BeverageListRepository {
     private static final String TAG = BeverageListRepository.class.getSimpleName();
 
     private ApiManager mApiManager;
+    private AppDatabase mDatabase;
     private Callback<BeveragesResponse> mBeveragesCallback;
     private MutableLiveData<List<Beverage>> mBeverageList;
     //TODO: Implement cashing
@@ -25,8 +27,9 @@ public class BeverageListRepository {
     // https://github.com/googlesamples/android-architecture-components/issues/55
     // https://developer.android.com/reference/android/util/LruCache
 
-    public BeverageListRepository(ApiManager apiManager) {
+    public BeverageListRepository(ApiManager apiManager, AppDatabase appDatabase) {
         this.mApiManager = apiManager;
+        this.mDatabase = appDatabase;
         mBeverageList = new MutableLiveData<>();
         mBeveragesCallback = new Callback<BeveragesResponse>() {
             @Override
@@ -63,7 +66,7 @@ public class BeverageListRepository {
     }
 
     public void fetchFavouriteBeverages() {
-        mApiManager.getCocoaBeverages(mBeveragesCallback);
+        mBeverageList.setValue(mDatabase.beverageDao().getAllBeverages());
     }
 
     public LiveData<List<Beverage>> getBeverageList() {

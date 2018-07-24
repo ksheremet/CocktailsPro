@@ -1,17 +1,49 @@
 package ch.sheremet.katarina.cocktailspro.model;
 
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
+@Entity(tableName = "beverage_detail_table")
 public class BeverageDetails {
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "id")
     private String mId;
+    @ColumnInfo(name = "name")
     private String mName;
+    @ColumnInfo(name = "instructions")
     private String mInstructions;
+    @ColumnInfo(name = "glass_type")
     private String mGlassType;
+    @ColumnInfo(name = "thumbnail")
     private String mThumbnailUrl;
+    @ColumnInfo(name = "category")
     private String mCategory;
+    @ColumnInfo(name = "iba")
     private String mIBA;
+    //TODO
+    @Ignore
     private List<Ingredients> mIngredients;
+
+    @Ignore
+    public BeverageDetails() {
+    }
+
+    public BeverageDetails(@NonNull String mId, String mName, String mInstructions, String mGlassType, String mThumbnailUrl, String mCategory, String mIBA) {
+        this.mId = mId;
+        this.mName = mName;
+        this.mInstructions = mInstructions;
+        this.mGlassType = mGlassType;
+        this.mThumbnailUrl = mThumbnailUrl;
+        this.mCategory = mCategory;
+        this.mIBA = mIBA;
+    }
 
     public String getId() {
         return mId;

@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 import ch.sheremet.katarina.cocktailspro.beveragedetails.BeverageDetailsRepository;
 import ch.sheremet.katarina.cocktailspro.beveragedetails.BeverageDetailsViewModel;
 import ch.sheremet.katarina.cocktailspro.beveragedetails.BeverageDetailsViewModelFactory;
+import ch.sheremet.katarina.cocktailspro.model.database.AppDatabase;
 import ch.sheremet.katarina.cocktailspro.utils.ApiManager;
 import dagger.Module;
 import dagger.Provides;
@@ -35,7 +36,13 @@ public class BeverageDetailsViewModelModule {
 
     @Singleton
     @Provides
-    BeverageDetailsRepository provideBeverageListRepository(ApiManager apiManager) {
-        return new BeverageDetailsRepository(apiManager);
+    BeverageDetailsRepository provideBeverageListRepository(ApiManager apiManager, AppDatabase appDatabase) {
+        return new BeverageDetailsRepository(apiManager, appDatabase);
+    }
+
+    @Singleton
+    @Provides
+    AppDatabase provideDatabase() {
+        return AppDatabase.getInstance(mLiveCircleOwner.getApplicationContext());
     }
 }
