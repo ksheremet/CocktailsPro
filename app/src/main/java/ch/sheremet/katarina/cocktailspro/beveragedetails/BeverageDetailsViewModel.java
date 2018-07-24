@@ -36,4 +36,13 @@ public class BeverageDetailsViewModel extends ViewModel {
         mBeverageDetailsRepo.removeBeverageFromDb(beverage);
     }
 
+    public boolean isBeverageFavourite(Beverage beverage){
+        Beverage fetchedBeverage = mBeverageDetailsRepo.fetchBeverageByIdFromStorage(beverage.getId());
+        if (fetchedBeverage==null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 }

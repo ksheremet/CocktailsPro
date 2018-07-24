@@ -113,6 +113,7 @@ public class BeverageDetailsFragment extends Fragment {
             }
         });
 
+        mIsFavourite = mViewModel.isBeverageFavourite(mBeverage);
         setFavouriteButtonBackground(mIsFavourite);
 
         return view;

@@ -24,4 +24,7 @@ public interface BeverageDao {
 
     @Delete
     void deleteBeverage(Beverage beverage);
+
+    @Query("SELECT * FROM beverage_table WHERE id=:id")
+    Beverage getBeverageById(String id);
 }

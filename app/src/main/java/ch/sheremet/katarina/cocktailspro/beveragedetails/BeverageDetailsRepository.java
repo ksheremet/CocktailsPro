@@ -59,4 +59,8 @@ public class BeverageDetailsRepository {
     public void removeBeverageFromDb(Beverage beverage) {
         mDatabase.beverageDao().deleteBeverage(beverage);
     }
+
+    public Beverage fetchBeverageByIdFromStorage(String id) {
+        return mDatabase.beverageDao().getBeverageById(id);
+    }
 }
