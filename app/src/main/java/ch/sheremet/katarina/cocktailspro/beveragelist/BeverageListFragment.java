@@ -19,6 +19,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import ch.sheremet.katarina.cocktailspro.R;
 import ch.sheremet.katarina.cocktailspro.di.BeverageListFragmentComponent;
 import ch.sheremet.katarina.cocktailspro.di.BeverageListViewModelModule;
@@ -37,7 +39,8 @@ public class BeverageListFragment extends Fragment {
     private static final String RECYCLER_VIEW_STATE = "recycler_view_state";
     private OnBeverageSelected mListener;
     private BeverageListAdapter mBeveragesAdapter;
-    private RecyclerView mRecyclerView;
+    @BindView(R.id.list)
+    RecyclerView mRecyclerView;
 
     @Inject
     BeverageListViewModel mViewModel;
@@ -50,6 +53,7 @@ public class BeverageListFragment extends Fragment {
     }
 
     public void setBeverageList(List<Beverage> mBeverageList) {
+        mListener.showData();
         mBeveragesAdapter.setBeverages(mBeverageList);
     }
 
@@ -70,7 +74,8 @@ public class BeverageListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_beverage_list, container, false);
 
-        mRecyclerView = view.findViewById(R.id.list);
+        ButterKnife.bind(this, view);
+
         GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(),
                 getResources().getInteger(R.integer.grid_columns));
         mRecyclerView.setLayoutManager(layoutManager);
@@ -157,5 +162,7 @@ public class BeverageListFragment extends Fragment {
      */
     public interface OnBeverageSelected {
         void onBeverageClicked(Beverage beverage);
+        void showData();
+        void showError(String error);
     }
 }

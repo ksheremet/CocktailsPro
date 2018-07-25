@@ -6,6 +6,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -37,6 +41,12 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
 
     @BindView(R.id.tabs)
     TabLayout mTabLayout;
+    @BindView(R.id.progress_bar)
+    ProgressBar mProgressBar;
+    @BindView(R.id.error_message)
+    TextView mErrorMessage;
+    @BindView(R.id.beverage_data)
+    FrameLayout mDataFrameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
                 .beverageListViewModelModule
                         (new BeverageListViewModelModule(this)).build();
         component.injectMainActivity(this);
+
+        showProgressBar();
 
         // Check favourite beverages of a user. If current tab is favourite - update Adapter
         // and display updated favourites list.
@@ -93,18 +105,22 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
+                        showProgressBar();
                         mIsFavouriteShown = false;
                         mViewModel.fetchNonAlcoholicBeverages();
                         break;
                     case 1:
+                        showProgressBar();
                         mIsFavouriteShown = false;
                         mViewModel.fetchAlcoholicBeverages();
                         break;
                     case 2:
+                        showProgressBar();
                         mIsFavouriteShown = false;
                         mViewModel.fetchCocoaBeverages();
                         break;
                     case 3:
+                        showProgressBar();
                         mIsFavouriteShown = true;
                         mBeverageListFragment.setBeverageList(mFavouriteBeverages);
                 }
@@ -126,6 +142,26 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
     public void onBeverageClicked(Beverage beverage) {
         BeverageDetailsActivity.startActivity(this, beverage);
         Log.d(TAG, beverage.toString());
+    }
+
+    public void showProgressBar() {
+        mDataFrameLayout.setVisibility(View.INVISIBLE);
+        mErrorMessage.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showData() {
+        mDataFrameLayout.setVisibility(View.VISIBLE);
+        mErrorMessage.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showError(String error) {
+        mDataFrameLayout.setVisibility(View.INVISIBLE);
+        mErrorMessage.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 
 }
