@@ -1,9 +1,13 @@
 package ch.sheremet.katarina.cocktailspro;
 
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -12,9 +16,9 @@ import butterknife.ButterKnife;
 import ch.sheremet.katarina.cocktailspro.beveragedetails.BeverageDetailsActivity;
 import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListFragment;
 import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListViewModel;
+import ch.sheremet.katarina.cocktailspro.di.BeverageListViewModelModule;
 import ch.sheremet.katarina.cocktailspro.di.DaggerMainActivityComponent;
 import ch.sheremet.katarina.cocktailspro.di.MainActivityComponent;
-import ch.sheremet.katarina.cocktailspro.di.BeverageListViewModelModule;
 import ch.sheremet.katarina.cocktailspro.model.Beverage;
 
 public class MainActivity extends AppCompatActivity implements BeverageListFragment.OnBeverageSelected {
@@ -24,6 +28,9 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
     private static final String TAB_STATE = "tab_state";
 
     private BeverageListFragment mBeverageListFragment;
+
+    private List<Beverage> mFavouriteBeverages;
+    private boolean mIsFavouriteShown = false;
 
     @Inject
     BeverageListViewModel mViewModel;
@@ -42,6 +49,18 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
                 .beverageListViewModelModule
                         (new BeverageListViewModelModule(this)).build();
         component.injectMainActivity(this);
+
+        // Check favourite beverages of a user. If current tab is favourite - update Adapter
+        // and display updated favourites list.
+        mViewModel.fetchFavouriteBeverages().observe(this, new Observer<List<Beverage>>() {
+            @Override
+            public void onChanged(@Nullable List<Beverage> beverages) {
+                mFavouriteBeverages = beverages;
+                if (mIsFavouriteShown) {
+                    mBeverageListFragment.setBeverageList(beverages);
+                }
+            }
+        });
 
         if (savedInstanceState != null) {
             mBeverageListFragment = (BeverageListFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_STATE);
@@ -74,23 +93,26 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
+                        mIsFavouriteShown = false;
                         mViewModel.fetchNonAlcoholicBeverages();
                         break;
                     case 1:
+                        mIsFavouriteShown = false;
                         mViewModel.fetchAlcoholicBeverages();
                         break;
                     case 2:
+                        mIsFavouriteShown = false;
                         mViewModel.fetchCocoaBeverages();
                         break;
                     case 3:
-                        mViewModel.fetchFavouriteBeverages();
+                        mIsFavouriteShown = true;
+                        mBeverageListFragment.setBeverageList(mFavouriteBeverages);
                 }
                 mBeverageListFragment.moveToListBeginning();
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override

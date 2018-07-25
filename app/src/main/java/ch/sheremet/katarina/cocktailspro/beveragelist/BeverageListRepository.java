@@ -66,13 +66,11 @@ public class BeverageListRepository {
         mApiManager.getCocoaBeverages(mBeveragesCallback);
     }
 
-    public void fetchFavouriteBeverages() {
-        //LiveData<List<Beverage>> listLiveData = mDatabase.beverageDao().getAllBeverages();
-        //Log.d(TAG, listLiveData.getValue().toString());
-        mBeverageList.postValue(mDatabase.beverageDao().getAllBeverages());
-    }
-
     public LiveData<List<Beverage>> getBeverageList() {
         return mBeverageList;
+    }
+
+    public LiveData<List<Beverage>> getFavouriteBeverages() {
+        return mDatabase.beverageDao().getAllBeverages();
     }
 }

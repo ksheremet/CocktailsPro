@@ -1,5 +1,6 @@
 package ch.sheremet.katarina.cocktailspro.model.database;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -14,7 +15,7 @@ import ch.sheremet.katarina.cocktailspro.model.Beverage;
 @Dao
 public interface BeverageDao {
     @Query("SELECT * FROM beverage_table")
-    List<Beverage> getAllBeverages();
+    LiveData<List<Beverage>> getAllBeverages();
 
     @Insert
     void insertBeverage(Beverage beverage);

@@ -39,7 +39,7 @@ public class BeverageListViewModel extends ViewModel {
         mBeverageRepo.fetchCocoaBeverages();
     }
 
-    public void fetchFavouriteBeverages() {
-        mBeverageRepo.fetchFavouriteBeverages();
+    public LiveData<List<Beverage>> fetchFavouriteBeverages() {
+        return mBeverageRepo.getFavouriteBeverages();
     }
 }
