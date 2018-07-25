@@ -2,12 +2,14 @@ package ch.sheremet.katarina.cocktailspro.beveragedetails;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import ch.sheremet.katarina.cocktailspro.model.Beverage;
 import ch.sheremet.katarina.cocktailspro.model.BeverageDetails;
 import ch.sheremet.katarina.cocktailspro.model.BeverageDetailsResponse;
 import ch.sheremet.katarina.cocktailspro.model.database.AppDatabase;
+import ch.sheremet.katarina.cocktailspro.model.database.BeverageDao;
 import ch.sheremet.katarina.cocktailspro.utils.ApiManager;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,14 +55,44 @@ public class BeverageDetailsRepository {
     }
 
     public void addBeverageToDB(Beverage beverage) {
-        mDatabase.beverageDao().insertBeverage(beverage);
+        new InsertAsyncTask(mDatabase.beverageDao()).execute(beverage);
     }
 
     public void removeBeverageFromDb(Beverage beverage) {
-        mDatabase.beverageDao().deleteBeverage(beverage);
+        new RemoveAsyncTask(mDatabase.beverageDao()).execute(beverage);
     }
 
     public Beverage fetchBeverageByIdFromStorage(String id) {
         return mDatabase.beverageDao().getBeverageById(id);
+    }
+
+    private static class InsertAsyncTask extends AsyncTask<Beverage, Void, Void> {
+
+        private BeverageDao mAsyncBeverageDao;
+
+        InsertAsyncTask(BeverageDao asyncBeverageDao) {
+            this.mAsyncBeverageDao = asyncBeverageDao;
+        }
+
+        @Override
+        protected Void doInBackground(Beverage... beverages) {
+            mAsyncBeverageDao.insertBeverage(beverages[0]);
+            return null;
+        }
+    }
+
+    private static class RemoveAsyncTask extends AsyncTask<Beverage, Void, Void> {
+
+        private BeverageDao mAsyncBeverageDao;
+
+        RemoveAsyncTask(BeverageDao asyncBeverageDao) {
+            this.mAsyncBeverageDao = asyncBeverageDao;
+        }
+
+        @Override
+        protected Void doInBackground(Beverage... beverages) {
+            mAsyncBeverageDao.deleteBeverage(beverages[0]);
+            return null;
+        }
     }
 }

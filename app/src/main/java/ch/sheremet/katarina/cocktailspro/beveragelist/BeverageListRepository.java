@@ -30,7 +30,9 @@ public class BeverageListRepository {
     public BeverageListRepository(ApiManager apiManager, AppDatabase appDatabase) {
         this.mApiManager = apiManager;
         this.mDatabase = appDatabase;
+
         mBeverageList = new MutableLiveData<>();
+
         mBeveragesCallback = new Callback<BeveragesResponse>() {
             @Override
             public void onResponse(final Call<BeveragesResponse> call,
@@ -50,6 +52,7 @@ public class BeverageListRepository {
                 Log.e(TAG, "Error getting beverages", t);
             }
         };
+        //TODO: remove it
         fetchNonAlcoholicBeverages();
     }
 
@@ -66,7 +69,9 @@ public class BeverageListRepository {
     }
 
     public void fetchFavouriteBeverages() {
-        mBeverageList.setValue(mDatabase.beverageDao().getAllBeverages());
+        //LiveData<List<Beverage>> listLiveData = mDatabase.beverageDao().getAllBeverages();
+        //Log.d(TAG, listLiveData.getValue().toString());
+        mBeverageList.postValue(mDatabase.beverageDao().getAllBeverages());
     }
 
     public LiveData<List<Beverage>> getBeverageList() {
