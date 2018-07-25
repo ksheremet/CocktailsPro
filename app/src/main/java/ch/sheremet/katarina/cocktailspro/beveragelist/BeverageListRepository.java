@@ -52,8 +52,6 @@ public class BeverageListRepository {
                 Log.e(TAG, "Error getting beverages", t);
             }
         };
-        //TODO: remove it
-        fetchNonAlcoholicBeverages();
     }
 
     public void fetchNonAlcoholicBeverages() {
