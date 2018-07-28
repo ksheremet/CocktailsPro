@@ -81,7 +81,7 @@ public class BeverageDetailsDeserializer implements JsonDeserializer<BeverageDet
                 String ingredient = jsonObject.get("strIngredient" + i).getAsString().trim();
                 String measure = jsonObject.get("strMeasure" + i).getAsString().trim();
                 if (!ingredient.isEmpty() || !measure.isEmpty()) {
-                    ingredientsList.add(new Ingredients(ingredient, measure));
+                    ingredientsList.add(new Ingredients(ingredient, measure, beverageDetails.getId()));
                 }
             }
         }

@@ -37,6 +37,13 @@ public class Ingredients {
         this.mBeverageId = mBeverageId;
     }
 
+    @Ignore
+    public Ingredients(String mIngredient, String mMeasure, String mBeverageId) {
+        this.mIngredient = mIngredient;
+        this.mMeasure = mMeasure;
+        this.mBeverageId = mBeverageId;
+    }
+
     public String getIngredient() {
         return mIngredient;
     }
@@ -73,8 +80,10 @@ public class Ingredients {
     @Override
     public String toString() {
         return "Ingredients{" +
-                "mIngredient='" + mIngredient + '\'' +
+                "mId=" + mId +
+                ", mIngredient='" + mIngredient + '\'' +
                 ", mMeasure='" + mMeasure + '\'' +
+                ", mBeverageId='" + mBeverageId + '\'' +
                 '}';
     }
 }
