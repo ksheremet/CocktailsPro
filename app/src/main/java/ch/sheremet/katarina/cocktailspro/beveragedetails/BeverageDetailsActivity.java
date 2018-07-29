@@ -16,7 +16,6 @@ import ch.sheremet.katarina.cocktailspro.model.Beverage;
 public class BeverageDetailsActivity extends AppCompatActivity {
 
     private static final String BEVERAGE_PARAM = "beverage";
-    private static final String FRAGMENT_STATE = "beverage_details_state";
 
     private Beverage mBeverage;
     private BeverageDetailsFragment mDetailsFragment;
@@ -34,12 +33,11 @@ public class BeverageDetailsActivity extends AppCompatActivity {
         if (!getIntent().hasExtra(BEVERAGE_PARAM)) {
             finish();
         }
+
         mBeverage = getIntent().getParcelableExtra(BEVERAGE_PARAM);
         setToolbar();
 
-        if (savedInstanceState != null) {
-            mDetailsFragment = (BeverageDetailsFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_STATE);
-        } else {
+        if (savedInstanceState == null) {
             mDetailsFragment = BeverageDetailsFragment.newInstance(mBeverage);
             getSupportFragmentManager()
                     .beginTransaction()

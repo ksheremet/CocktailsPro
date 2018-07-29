@@ -6,13 +6,15 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "ingredient_table", foreignKeys = @ForeignKey(entity = BeverageDetails.class,
         parentColumns = "id", childColumns = "beverage_id", onDelete = CASCADE),
         indices = {@Index("beverage_id")})
-public class Ingredients {
+public class Ingredients implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private int mId;
@@ -43,6 +45,39 @@ public class Ingredients {
         this.mMeasure = mMeasure;
         this.mBeverageId = mBeverageId;
     }
+
+    @Ignore
+    protected Ingredients(Parcel in) {
+        mId = in.readInt();
+        mIngredient = in.readString();
+        mMeasure = in.readString();
+        mBeverageId = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mId);
+        dest.writeString(mIngredient);
+        dest.writeString(mMeasure);
+        dest.writeString(mBeverageId);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Ingredients> CREATOR = new Creator<Ingredients>() {
+        @Override
+        public Ingredients createFromParcel(Parcel in) {
+            return new Ingredients(in);
+        }
+
+        @Override
+        public Ingredients[] newArray(int size) {
+            return new Ingredients[size];
+        }
+    };
 
     public String getIngredient() {
         return mIngredient;

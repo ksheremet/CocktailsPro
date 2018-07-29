@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
         });
 
         if (savedInstanceState != null) {
+            //TODO: Consider not to save fragment
             mBeverageListFragment = (BeverageListFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_STATE);
             initTabs(savedInstanceState.getInt(TAB_STATE));
         } else {

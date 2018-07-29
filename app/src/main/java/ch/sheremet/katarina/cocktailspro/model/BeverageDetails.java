@@ -5,12 +5,14 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import java.util.List;
 
 @Entity(tableName = "beverage_detail_table")
-public class BeverageDetails {
+public class BeverageDetails implements Parcelable {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "id")
@@ -43,6 +45,29 @@ public class BeverageDetails {
         this.mCategory = mCategory;
         this.mIBA = mIBA;
     }
+
+    protected BeverageDetails(Parcel in) {
+        mId = in.readString();
+        mName = in.readString();
+        mInstructions = in.readString();
+        mGlassType = in.readString();
+        mThumbnailUrl = in.readString();
+        mCategory = in.readString();
+        mIBA = in.readString();
+        mIngredients = in.createTypedArrayList(Ingredients.CREATOR);
+    }
+
+    public static final Creator<BeverageDetails> CREATOR = new Creator<BeverageDetails>() {
+        @Override
+        public BeverageDetails createFromParcel(Parcel in) {
+            return new BeverageDetails(in);
+        }
+
+        @Override
+        public BeverageDetails[] newArray(int size) {
+            return new BeverageDetails[size];
+        }
+    };
 
     public String getId() {
         return mId;
@@ -108,6 +133,7 @@ public class BeverageDetails {
         this.mCategory = mCategory;
     }
 
+    //TODO: StringBuilder
     @Override
     public String toString() {
         return "BeverageDetails{" +
@@ -120,5 +146,22 @@ public class BeverageDetails {
                 ", mIBA='" + mIBA + '\'' +
                 ", mIngredients=" + mIngredients +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mId);
+        dest.writeString(mName);
+        dest.writeString(mInstructions);
+        dest.writeString(mGlassType);
+        dest.writeString(mThumbnailUrl);
+        dest.writeString(mCategory);
+        dest.writeString(mIBA);
+        dest.writeTypedList(mIngredients);
     }
 }

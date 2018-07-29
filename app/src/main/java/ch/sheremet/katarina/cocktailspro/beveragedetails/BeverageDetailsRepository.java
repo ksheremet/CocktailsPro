@@ -59,7 +59,7 @@ public class BeverageDetailsRepository {
         return mDatabase.beverageDao().getBeverageDetailsWithInredients(id);
     }
 
-    public void addBeverageToDB(Beverage beverage, BeverageDetails beverageDetails) {
+    public void addBeverageToDb(Beverage beverage, BeverageDetails beverageDetails) {
         new InsertAsyncTask(mDatabase.beverageDao()).execute(new Pair<>(beverage, beverageDetails));
     }
 
@@ -67,7 +67,7 @@ public class BeverageDetailsRepository {
         new RemoveAsyncTask(mDatabase.beverageDao()).execute(new Pair<>(beverage, beverageDetails));
     }
 
-    public Beverage fetchBeverageByIdFromStorage(String id) {
+    public Beverage fetchBeverageByIdFromDb(String id) {
         return mDatabase.beverageDao().getBeverageById(id);
     }
 

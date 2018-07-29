@@ -29,7 +29,7 @@ public class BeverageDetailsViewModel extends ViewModel {
     }
 
     public void addBeverageToFavourite(Beverage beverage, BeverageDetails beverageDetails) {
-        mBeverageDetailsRepo.addBeverageToDB(beverage, beverageDetails);
+        mBeverageDetailsRepo.addBeverageToDb(beverage, beverageDetails);
     }
 
     public void deleteBeverageFromFavourite(Beverage beverage, BeverageDetails beverageDetails) {
@@ -37,7 +37,7 @@ public class BeverageDetailsViewModel extends ViewModel {
     }
 
     public boolean isBeverageFavourite(Beverage beverage) {
-        Beverage fetchedBeverage = mBeverageDetailsRepo.fetchBeverageByIdFromStorage(beverage.getId());
+        Beverage fetchedBeverage = mBeverageDetailsRepo.fetchBeverageByIdFromDb(beverage.getId());
         if (fetchedBeverage==null) {
             return false;
         } else {

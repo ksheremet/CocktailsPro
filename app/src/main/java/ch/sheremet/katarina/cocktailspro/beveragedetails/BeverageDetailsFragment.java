@@ -37,6 +37,8 @@ public class BeverageDetailsFragment extends Fragment {
 
     private static final String TAG = BeverageDetailsFragment.class.getSimpleName();
     private static final String BEVERAGE_PARAM = "drink_id";
+    private static final String FAVOURITE_STATE = "is_favourite_drink";
+    private static final String BEVERAGE_DETAILS_STATE = "beverage_details";
 
     @BindView(R.id.detail_beverage_name_tv)
     TextView mName;
@@ -51,16 +53,14 @@ public class BeverageDetailsFragment extends Fragment {
     @BindView(R.id.detail_beverage_thumbnail_iv)
     ImageView mThumbnail;
     @BindView(R.id.detail_category_tv)
-    TextView mCagegory;
+    TextView mCategory;
     @BindView(R.id.detail_iba_tv)
     TextView mIba;
-
+    @Inject
+    BeverageDetailsViewModel mViewModel;
     private boolean mIsFavourite = false;
     private Beverage mBeverage;
     private BeverageDetails mBeverageDetails;
-
-    @Inject
-    BeverageDetailsViewModel mViewModel;
 
     public BeverageDetailsFragment() {
         // Required empty public constructor
@@ -104,29 +104,45 @@ public class BeverageDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_beverage_details, container, false);
         ButterKnife.bind(this, view);
 
-
-        mIsFavourite = mViewModel.isBeverageFavourite(mBeverage);
-        if (mIsFavourite) {
-            mBeverageDetails = mViewModel.getFavouriteBeverageDetails(mBeverage.getId());
-           updateUI(mBeverageDetails);
-           Log.d(TAG, "Details fetched from DB: " + mBeverageDetails);
-        } else {
-            mViewModel.fetchBeverageByID(mBeverage.getId());
-            mViewModel.getBeverageDetails().observe(this, new Observer<BeverageDetails>() {
-                @Override
-                public void onChanged(@Nullable BeverageDetails beverageDetails) {
-                    if (beverageDetails != null) {
-                        mViewModel.getBeverageDetails().removeObserver(this);
-                        mBeverageDetails = beverageDetails;
-                        Log.d(TAG, beverageDetails.toString());
-                        updateUI(beverageDetails);
+        if (savedInstanceState == null) {
+            mIsFavourite = mViewModel.isBeverageFavourite(mBeverage);
+            if (mIsFavourite) {
+                mBeverageDetails = mViewModel.getFavouriteBeverageDetails(mBeverage.getId());
+                updateUI(mBeverageDetails);
+                Log.d(TAG, "Details fetched from DB: " + mBeverageDetails);
+            } else {
+                mViewModel.fetchBeverageByID(mBeverage.getId());
+                mViewModel.getBeverageDetails().observe(this, new Observer<BeverageDetails>() {
+                    @Override
+                    public void onChanged(@Nullable BeverageDetails beverageDetails) {
+                        if (beverageDetails != null) {
+                            mViewModel.getBeverageDetails().removeObserver(this);
+                            mBeverageDetails = beverageDetails;
+                            Log.d(TAG, beverageDetails.toString());
+                            updateUI(beverageDetails);
+                        }
                     }
-                }
-            });
+                });
+            }
+        } else {
+            mIsFavourite = savedInstanceState.getBoolean(FAVOURITE_STATE);
+            if (savedInstanceState.containsKey(BEVERAGE_DETAILS_STATE)) {
+                mBeverageDetails = savedInstanceState.getParcelable(BEVERAGE_DETAILS_STATE);
+                updateUI(mBeverageDetails);
+            } else {
+                getActivity().finish();
+            }
         }
         setFavouriteButtonBackground(mIsFavourite);
 
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(FAVOURITE_STATE, mIsFavourite);
+        outState.putParcelable(BEVERAGE_DETAILS_STATE, mBeverageDetails);
     }
 
     private void updateUI(BeverageDetails beverageDetails) {
@@ -134,7 +150,7 @@ public class BeverageDetailsFragment extends Fragment {
         mGlassType.setText(beverageDetails.getGlassType());
         mInstructions.setText(beverageDetails.getInstructions());
         mIba.setText(beverageDetails.getIBA());
-        mCagegory.setText(beverageDetails.getCategory());
+        mCategory.setText(beverageDetails.getCategory());
 
         StringBuilder builder = new StringBuilder();
         for (Ingredients ingredients : beverageDetails.getIngredients()) {
@@ -148,7 +164,8 @@ public class BeverageDetailsFragment extends Fragment {
             mIngredients.setText(builder.toString());
         }
 
-        Picasso.get().load(beverageDetails.getThumbnailUrl()).into(mThumbnail);
+        Picasso.get().load(beverageDetails.getThumbnailUrl()).error(R.drawable.vuquyv1468876052)
+                .placeholder(R.drawable.vuquyv1468876052).into(mThumbnail);
     }
 
     @OnClick(R.id.add_to_favourite_iv)
