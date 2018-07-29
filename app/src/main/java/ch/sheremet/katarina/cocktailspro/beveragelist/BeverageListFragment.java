@@ -61,12 +61,11 @@ public class BeverageListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Retain this fragment across configuration changes.
-        setRetainInstance(true);
+        //setRetainInstance(true);
         BeverageListFragmentComponent component = DaggerBeverageListFragmentComponent.builder()
                 .beverageListViewModelModule
                         (new BeverageListViewModelModule(getActivity())).build();
         component.injectBeverageListFragment(this);
-        Log.d(TAG, "Fragment onCreate()");
     }
 
     @Override
@@ -90,7 +89,6 @@ public class BeverageListFragment extends Fragment {
                 setBeverageList(beverages);
             }
         });
-        Log.d(TAG, "Fragment onCreateView");
         return view;
     }
 
@@ -106,9 +104,6 @@ public class BeverageListFragment extends Fragment {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d(TAG, "Fragment: onActivityCreated, restore RecyclerView");
-                    Log.d(TAG, mRecyclerView.getLayoutManager().toString());
-                    Log.d(TAG, savedRecyclerLayoutState.toString());
                     mRecyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
                 }
             }, 600);
@@ -118,7 +113,6 @@ public class BeverageListFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d(TAG, "Fragment: onSaveInstanceState");
         outState.putParcelable(RECYCLER_VIEW_STATE, mRecyclerView
                 .getLayoutManager().onSaveInstanceState());
     }
@@ -138,20 +132,6 @@ public class BeverageListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    // TODO: It doesn't scroll to beginning
-    public void moveToListBeginning() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(TAG, "Fragment: moveToListBeginning");
-                //mRecyclerView.scrollToPosition(0);
-                //mRecyclerView.getLayoutManager().scrollToPosition(0);
-                //mRecyclerView.smoothScrollToPosition(0);
-                mRecyclerView.getLayoutManager().scrollToPosition(0);
-            }
-        }, 600);
     }
 
     /**

@@ -4,10 +4,10 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
     @BindView(R.id.error_message)
     TextView mErrorMessage;
     @BindView(R.id.beverage_data)
-    FrameLayout mDataFrameLayout;
+    NestedScrollView mDataNestedScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +70,12 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
                 mFavouriteBeverages = beverages;
                 if (mIsFavouriteShown) {
                     mBeverageListFragment.setBeverageList(beverages);
+                    Log.d(TAG, "Favourite Beverages: " + beverages);
                 }
             }
         });
 
         if (savedInstanceState != null) {
-            //TODO: Consider not to save fragment
             mBeverageListFragment = (BeverageListFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_STATE);
             initTabs(savedInstanceState.getInt(TAB_STATE));
         } else {
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
                         mIsFavouriteShown = true;
                         mBeverageListFragment.setBeverageList(mFavouriteBeverages);
                 }
-                mBeverageListFragment.moveToListBeginning();
+                mDataNestedScrollView.scrollTo(0,0);
             }
 
             @Override
@@ -142,25 +142,24 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
     @Override
     public void onBeverageClicked(Beverage beverage) {
         BeverageDetailsActivity.startActivity(this, beverage);
-        Log.d(TAG, beverage.toString());
     }
 
     public void showProgressBar() {
-        mDataFrameLayout.setVisibility(View.INVISIBLE);
+        mDataNestedScrollView.setVisibility(View.INVISIBLE);
         mErrorMessage.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showData() {
-        mDataFrameLayout.setVisibility(View.VISIBLE);
+        mDataNestedScrollView.setVisibility(View.VISIBLE);
         mErrorMessage.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void showError(String error) {
-        mDataFrameLayout.setVisibility(View.INVISIBLE);
+        mDataNestedScrollView.setVisibility(View.INVISIBLE);
         mErrorMessage.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
     }
