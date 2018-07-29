@@ -57,6 +57,7 @@ public class BeverageDetailsFragment extends Fragment {
 
     private boolean mIsFavourite = false;
     private Beverage mBeverage;
+    private BeverageDetails mBeverageDetails;
 
     @Inject
     BeverageDetailsViewModel mViewModel;
@@ -91,7 +92,6 @@ public class BeverageDetailsFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             mBeverage = bundle.getParcelable(BEVERAGE_PARAM);
-            mViewModel.fetchBeverageByID(mBeverage.getId());
         } else {
             getActivity().finish();
         }
@@ -103,17 +103,27 @@ public class BeverageDetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_beverage_details, container, false);
         ButterKnife.bind(this, view);
-        mViewModel.getBeverageDetails().observe(this, new Observer<BeverageDetails>() {
-            @Override
-            public void onChanged(@Nullable BeverageDetails beverageDetails) {
-                if (beverageDetails != null) {
-                    Log.d(TAG, beverageDetails.toString());
-                    updateUI(beverageDetails);
-                }
-            }
-        });
+
 
         mIsFavourite = mViewModel.isBeverageFavourite(mBeverage);
+        if (mIsFavourite) {
+            mBeverageDetails = mViewModel.getFavouriteBeverageDetails(mBeverage.getId());
+           updateUI(mBeverageDetails);
+           Log.d(TAG, "Details fetched from DB: " + mBeverageDetails);
+        } else {
+            mViewModel.fetchBeverageByID(mBeverage.getId());
+            mViewModel.getBeverageDetails().observe(this, new Observer<BeverageDetails>() {
+                @Override
+                public void onChanged(@Nullable BeverageDetails beverageDetails) {
+                    if (beverageDetails != null) {
+                        mViewModel.getBeverageDetails().removeObserver(this);
+                        mBeverageDetails = beverageDetails;
+                        Log.d(TAG, beverageDetails.toString());
+                        updateUI(beverageDetails);
+                    }
+                }
+            });
+        }
         setFavouriteButtonBackground(mIsFavourite);
 
         return view;
@@ -145,12 +155,12 @@ public class BeverageDetailsFragment extends Fragment {
     protected void onFavouriteClick() {
         if (mIsFavourite) {
             mIsFavourite = false;
-            mViewModel.deleteBeverage(mBeverage);
-            Log.d(TAG, "Remove movie from favourites");
+            mViewModel.deleteBeverageFromFavourite(mBeverage, mBeverageDetails);
+            Log.d(TAG, "Remove from favourites");
         } else {
             mIsFavourite = true;
-            mViewModel.saveBeverage(mBeverage);
-            Log.d(TAG, "Add movie to favourites");
+            mViewModel.addBeverageToFavourite(mBeverage, mBeverageDetails);
+            Log.d(TAG, "Add to favourites");
         }
         setFavouriteButtonBackground(mIsFavourite);
     }

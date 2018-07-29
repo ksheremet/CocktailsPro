@@ -46,7 +46,6 @@ public class BeverageDetailsActivity extends AppCompatActivity {
                     .add(R.id.beverage_details_fragment, mDetailsFragment)
                     .commit();
         }
-
     }
 
     private void setToolbar() {

@@ -3,6 +3,7 @@ package ch.sheremet.katarina.cocktailspro.beveragedetails;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
+import android.support.v4.util.Pair;
 import android.util.Log;
 
 import ch.sheremet.katarina.cocktailspro.model.Beverage;
@@ -42,7 +43,7 @@ public class BeverageDetailsRepository {
             public void onFailure(Call<BeverageDetailsResponse> call, Throwable t) {
                 //TODO: Show error message to user
                 Log.e(TAG, "Error getting beverage details", t);
-                }
+            }
         };
     }
 
@@ -54,19 +55,23 @@ public class BeverageDetailsRepository {
         return mBeverageDetails;
     }
 
-    public void addBeverageToDB(Beverage beverage) {
-        new InsertAsyncTask(mDatabase.beverageDao()).execute(beverage);
+    public BeverageDetails getFavouriteBeverageDetails(String id) {
+        return mDatabase.beverageDao().getBeverageDetailsWithInredients(id);
     }
 
-    public void removeBeverageFromDb(Beverage beverage) {
-        new RemoveAsyncTask(mDatabase.beverageDao()).execute(beverage);
+    public void addBeverageToDB(Beverage beverage, BeverageDetails beverageDetails) {
+        new InsertAsyncTask(mDatabase.beverageDao()).execute(new Pair<>(beverage, beverageDetails));
+    }
+
+    public void removeBeverageFromDb(Beverage beverage, BeverageDetails beverageDetails) {
+        new RemoveAsyncTask(mDatabase.beverageDao()).execute(new Pair<>(beverage, beverageDetails));
     }
 
     public Beverage fetchBeverageByIdFromStorage(String id) {
         return mDatabase.beverageDao().getBeverageById(id);
     }
 
-    private static class InsertAsyncTask extends AsyncTask<Beverage, Void, Void> {
+    private static class InsertAsyncTask extends AsyncTask<Pair<Beverage, BeverageDetails>, Void, Void> {
 
         private BeverageDao mAsyncBeverageDao;
 
@@ -75,13 +80,13 @@ public class BeverageDetailsRepository {
         }
 
         @Override
-        protected Void doInBackground(Beverage... beverages) {
-            mAsyncBeverageDao.insertBeverage(beverages[0]);
+        protected Void doInBackground(Pair<Beverage, BeverageDetails>... pairs) {
+            mAsyncBeverageDao.insert(pairs[0].first, pairs[0].second);
             return null;
         }
     }
 
-    private static class RemoveAsyncTask extends AsyncTask<Beverage, Void, Void> {
+    private static class RemoveAsyncTask extends AsyncTask<Pair<Beverage, BeverageDetails>, Void, Void> {
 
         private BeverageDao mAsyncBeverageDao;
 
@@ -90,8 +95,8 @@ public class BeverageDetailsRepository {
         }
 
         @Override
-        protected Void doInBackground(Beverage... beverages) {
-            mAsyncBeverageDao.deleteBeverage(beverages[0]);
+        protected Void doInBackground(Pair<Beverage, BeverageDetails>... pairs) {
+            mAsyncBeverageDao.delete(pairs[0].first, pairs[0].second);
             return null;
         }
     }

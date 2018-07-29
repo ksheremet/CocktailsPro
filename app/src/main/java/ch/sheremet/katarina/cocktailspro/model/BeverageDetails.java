@@ -27,7 +27,6 @@ public class BeverageDetails {
     private String mCategory;
     @ColumnInfo(name = "iba")
     private String mIBA;
-    //TODO
     @Ignore
     private List<Ingredients> mIngredients;
 

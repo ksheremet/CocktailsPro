@@ -28,21 +28,25 @@ public class BeverageDetailsViewModel extends ViewModel {
         mBeverageDetailsRepo.fetchBeverageById(id);
     }
 
-    public void saveBeverage(Beverage beverage) {
-        mBeverageDetailsRepo.addBeverageToDB(beverage);
+    public void addBeverageToFavourite(Beverage beverage, BeverageDetails beverageDetails) {
+        mBeverageDetailsRepo.addBeverageToDB(beverage, beverageDetails);
     }
 
-    public void deleteBeverage(Beverage beverage) {
-        mBeverageDetailsRepo.removeBeverageFromDb(beverage);
+    public void deleteBeverageFromFavourite(Beverage beverage, BeverageDetails beverageDetails) {
+        mBeverageDetailsRepo.removeBeverageFromDb(beverage, beverageDetails);
     }
 
-    public boolean isBeverageFavourite(Beverage beverage){
+    public boolean isBeverageFavourite(Beverage beverage) {
         Beverage fetchedBeverage = mBeverageDetailsRepo.fetchBeverageByIdFromStorage(beverage.getId());
         if (fetchedBeverage==null) {
             return false;
         } else {
             return true;
         }
+    }
+
+    public BeverageDetails getFavouriteBeverageDetails(String id) {
+        return mBeverageDetailsRepo.getFavouriteBeverageDetails(id);
     }
 
 }
