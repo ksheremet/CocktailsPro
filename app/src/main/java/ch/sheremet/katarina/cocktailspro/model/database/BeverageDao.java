@@ -33,7 +33,7 @@ public abstract class BeverageDao {
     }
 
     @Transaction
-    public BeverageDetails getBeverageDetailsWithInredients(String id) {
+    public BeverageDetails getBeverageDetailsWithIngredients(String id) {
         List<Ingredients> ingredientsList = getAllIngredients(id);
         BeverageDetails beverageDetails = getBeverageDetail(id);
         beverageDetails.setIngredients(ingredientsList);

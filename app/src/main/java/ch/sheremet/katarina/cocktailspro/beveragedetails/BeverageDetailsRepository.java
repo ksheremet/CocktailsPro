@@ -56,7 +56,7 @@ public class BeverageDetailsRepository {
     }
 
     public BeverageDetails getFavouriteBeverageDetails(String id) {
-        return mDatabase.beverageDao().getBeverageDetailsWithInredients(id);
+        return mDatabase.beverageDao().getBeverageDetailsWithIngredients(id);
     }
 
     public void addBeverageToDb(Beverage beverage, BeverageDetails beverageDetails) {
