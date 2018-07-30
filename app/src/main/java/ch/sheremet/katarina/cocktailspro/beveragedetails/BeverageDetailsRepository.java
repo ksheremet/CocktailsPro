@@ -34,8 +34,11 @@ public class BeverageDetailsRepository {
             @Override
             public void onResponse(Call<BeverageDetailsResponse> call, Response<BeverageDetailsResponse> response) {
                 if (response.isSuccessful()) {
-                    Log.d(TAG, response.body().getBeverageDetail().toString());
                     mBeverageDetails.setValue(response.body().getBeverageDetail());
+                } else {
+                    if (response.errorBody() != null) {
+                        Log.e(TAG, response.errorBody().toString());
+                    }
                 }
             }
 
