@@ -3,6 +3,9 @@ package ch.sheremet.katarina.cocktailspro.beveragedetails;
 
 import android.app.Activity;
 import android.arch.lifecycle.Observer;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -63,6 +66,7 @@ public class BeverageDetailsFragment extends Fragment {
     private boolean mIsFavourite = false;
     private Beverage mBeverage;
     private BeverageDetails mBeverageDetails;
+    private OnDataInteraction mListener;
 
     public BeverageDetailsFragment() {
         // Required empty public constructor
@@ -100,12 +104,24 @@ public class BeverageDetailsFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnDataInteraction) {
+            mListener = (OnDataInteraction) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnBeverageSelected");
+        }
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_beverage_details, container, false);
         ButterKnife.bind(this, view);
 
+        mListener.showProgressBar();
         if (savedInstanceState == null) {
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
@@ -140,6 +156,14 @@ public class BeverageDetailsFragment extends Fragment {
         return view;
     }
 
+    private boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) return false;
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -167,21 +191,26 @@ public class BeverageDetailsFragment extends Fragment {
     }
 
     void initBeverageDetailsFromNetwork() {
-        mViewModel.fetchBeverageByID(mBeverage.getId());
-        mViewModel.getBeverageDetails().observe(this, new Observer<BeverageDetails>() {
-            @Override
-            public void onChanged(@Nullable BeverageDetails beverageDetails) {
-                if (beverageDetails != null) {
-                    mViewModel.getBeverageDetails().removeObserver(this);
-                    mBeverageDetails = beverageDetails;
-                    updateUI(mBeverageDetails);
-                    Log.d(TAG, "Details fetched from network");
+        if (isOnline()) {
+            mViewModel.fetchBeverageByID(mBeverage.getId());
+            mViewModel.getBeverageDetails().observe(this, new Observer<BeverageDetails>() {
+                @Override
+                public void onChanged(@Nullable BeverageDetails beverageDetails) {
+                    if (beverageDetails != null) {
+                        mViewModel.getBeverageDetails().removeObserver(this);
+                        mBeverageDetails = beverageDetails;
+                        updateUI(mBeverageDetails);
+                        Log.d(TAG, "Details fetched from network");
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            mListener.showError(getString(R.string.no_internet_user_message));
+        }
     }
 
     private void updateUI(BeverageDetails beverageDetails) {
+        mListener.showData();
         mName.setText(beverageDetails.getName());
         mGlassType.setText(beverageDetails.getGlassType());
         mInstructions.setText(beverageDetails.getInstructions());
@@ -224,5 +253,19 @@ public class BeverageDetailsFragment extends Fragment {
         } else {
             mAddToFavourite.setImageResource(android.R.drawable.btn_star_big_off);
         }
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     */
+    public interface OnDataInteraction {
+        void showData();
+
+        void showError(String error);
+
+        void showProgressBar();
     }
 }

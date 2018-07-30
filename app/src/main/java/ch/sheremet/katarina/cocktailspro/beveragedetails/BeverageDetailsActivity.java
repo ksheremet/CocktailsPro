@@ -4,21 +4,33 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import ch.sheremet.katarina.cocktailspro.R;
 import ch.sheremet.katarina.cocktailspro.model.Beverage;
 
-public class BeverageDetailsActivity extends AppCompatActivity {
+public class BeverageDetailsActivity extends AppCompatActivity implements BeverageDetailsFragment.OnDataInteraction {
 
     private static final String BEVERAGE_PARAM = "beverage";
 
     private Beverage mBeverage;
     private BeverageDetailsFragment mDetailsFragment;
+    @BindView(R.id.progress_bar)
+    ProgressBar mProgressBar;
+    @BindView(R.id.error_message)
+    TextView mErrorMessage;
+    @BindView(R.id.beverage_details_scrollview)
+    NestedScrollView mDataNestedScrollView;
 
     public static void startActivity(Context context, Beverage beverage) {
         Intent intent = new Intent(context, BeverageDetailsActivity.class);
@@ -36,6 +48,8 @@ public class BeverageDetailsActivity extends AppCompatActivity {
 
         mBeverage = getIntent().getParcelableExtra(BEVERAGE_PARAM);
         setToolbar();
+
+        ButterKnife.bind(this);
 
         if (savedInstanceState == null) {
             mDetailsFragment = BeverageDetailsFragment.newInstance(mBeverage);
@@ -60,5 +74,29 @@ public class BeverageDetailsActivity extends AppCompatActivity {
                 .error(R.drawable.vuquyv1468876052)
                 .placeholder(R.drawable.vuquyv1468876052)
                 .into((ImageView) findViewById(R.id.app_bar_image));
+    }
+
+    @Override
+    public void showData() {
+        mDataNestedScrollView.setVisibility(View.VISIBLE);
+        mErrorMessage.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showError(String error) {
+        mDataNestedScrollView.setVisibility(View.INVISIBLE);
+        mErrorMessage.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        if (!error.isEmpty()) {
+            mErrorMessage.setText(error);
+        }
+    }
+
+    @Override
+    public void showProgressBar() {
+        mDataNestedScrollView.setVisibility(View.INVISIBLE);
+        mErrorMessage.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 }
