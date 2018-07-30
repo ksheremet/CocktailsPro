@@ -6,4 +6,5 @@
     <string name="favourite_tab">Favourite</string>
 
     <string name="error_user_message">Error occurred. Try it later.</string>
+    <string name="no_internet_user_message">You don\'t have the Internet access. Try it later.</string>
 </resources>

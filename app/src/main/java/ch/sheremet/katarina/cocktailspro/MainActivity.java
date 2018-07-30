@@ -1,6 +1,9 @@
 package ch.sheremet.katarina.cocktailspro;
 
 import android.arch.lifecycle.Observer;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -67,6 +70,9 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
             initTabs(savedInstanceState.getInt(TAB_STATE));
         } else {
             initTabs(0);
+            if (!isOnline()) {
+                showError(getString(R.string.no_internet_user_message));
+            }
             mBeverageListFragment = new BeverageListFragment();
             getSupportFragmentManager()
                     .beginTransaction()
@@ -114,28 +120,33 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
         if (tabPosition == 3) {
             mIsFavouriteShown = true;
         }
+
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 3) {
+                    showProgressBar();
+                    mIsFavouriteShown = true;
+                } else {
+                    mIsFavouriteShown = false;
+                    if (isOnline()) {
+                        showProgressBar();
+                    } else {
+                        showError(getString(R.string.no_internet_user_message));
+                        return;
+                    }
+                }
                 switch (tab.getPosition()) {
                     case 0:
-                        showProgressBar();
-                        mIsFavouriteShown = false;
                         mViewModel.fetchNonAlcoholicBeverages();
                         break;
                     case 1:
-                        showProgressBar();
-                        mIsFavouriteShown = false;
                         mViewModel.fetchAlcoholicBeverages();
                         break;
                     case 2:
-                        showProgressBar();
-                        mIsFavouriteShown = false;
                         mViewModel.fetchCocoaBeverages();
                         break;
                     case 3:
-                        showProgressBar();
-                        mIsFavouriteShown = true;
                         mBeverageListFragment.setBeverageList(mFavouriteBeverages);
                 }
                 mDataNestedScrollView.scrollTo(0, 0);
@@ -150,6 +161,14 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
 
             }
         });
+    }
+
+    private boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) return false;
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     @Override
@@ -175,6 +194,9 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
         mDataNestedScrollView.setVisibility(View.INVISIBLE);
         mErrorMessage.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
+        if (!error.isEmpty()) {
+            mErrorMessage.setText(error);
+        }
     }
 
 }

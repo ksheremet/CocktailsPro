@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +31,10 @@ public class BeverageListFragment extends Fragment {
 
     private static final String TAG = BeverageListFragment.class.getSimpleName();
     private static final String RECYCLER_VIEW_STATE = "recycler_view_state";
-    private OnBeverageSelected mListener;
-    private BeverageListAdapter mBeveragesAdapter;
     @BindView(R.id.list)
     RecyclerView mRecyclerView;
+    private OnBeverageSelected mListener;
+    private BeverageListAdapter mBeveragesAdapter;
 
 
     /**
@@ -43,9 +44,14 @@ public class BeverageListFragment extends Fragment {
     public BeverageListFragment() {
     }
 
-    public void setBeverageList(List<Beverage> mBeverageList) {
-        mListener.showData();
-        mBeveragesAdapter.setBeverages(mBeverageList);
+    public void setBeverageList(List<Beverage> beverageList) {
+        if (beverageList == null) {
+            mListener.showError(getString(R.string.error_user_message));
+            Log.d(TAG, "List of beverages is null");
+        } else {
+            mListener.showData();
+            mBeveragesAdapter.setBeverages(beverageList);
+        }
     }
 
     @Override
@@ -114,7 +120,9 @@ public class BeverageListFragment extends Fragment {
      */
     public interface OnBeverageSelected {
         void onBeverageClicked(Beverage beverage);
+
         void showData();
+
         void showError(String error);
     }
 }
