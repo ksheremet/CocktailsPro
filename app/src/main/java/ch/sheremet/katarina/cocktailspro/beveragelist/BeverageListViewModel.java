@@ -13,6 +13,7 @@ public class BeverageListViewModel extends ViewModel {
 
     private LiveData<List<Beverage>> mBeverageList;
     private BeverageListRepository mBeverageRepo;
+    private LiveData<Throwable> mException;
 
     public BeverageListViewModel(BeverageListRepository beverageRepo) {
         mBeverageRepo = beverageRepo;
@@ -26,6 +27,12 @@ public class BeverageListViewModel extends ViewModel {
         return mBeverageList;
     }
 
+    public LiveData<Throwable> listenException() {
+        if (mException == null) {
+            mException = mBeverageRepo.listenException();
+        }
+        return mException;
+    }
 
     public void fetchNonAlcoholicBeverages() {
         mBeverageRepo.fetchNonAlcoholicBeverages();

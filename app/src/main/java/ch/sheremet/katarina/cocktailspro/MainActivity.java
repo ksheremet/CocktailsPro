@@ -65,6 +65,16 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
 
         showProgressBar();
 
+        mViewModel.listenException().observe(this, new Observer<Throwable>() {
+            @Override
+            public void onChanged(@Nullable Throwable throwable) {
+                if (throwable != null) {
+                    Log.e(TAG, throwable.getMessage());
+                   showError(getString(R.string.error_user_message));
+                }
+            }
+        });
+
         if (savedInstanceState != null) {
             mBeverageListFragment = (BeverageListFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_STATE);
             initTabs(savedInstanceState.getInt(TAB_STATE));

@@ -22,10 +22,13 @@ public class BeverageListRepository {
     private AppDatabase mDatabase;
     private Callback<BeveragesResponse> mBeveragesCallback;
     private MutableLiveData<List<Beverage>> mBeverageList;
+    private MutableLiveData<Throwable> mException;
 
     public BeverageListRepository(ApiManager apiManager, AppDatabase appDatabase) {
         this.mApiManager = apiManager;
         this.mDatabase = appDatabase;
+        this.mException = new MutableLiveData<>();
+        this.mException.setValue(null);
 
         mBeverageList = new MutableLiveData<>();
 
@@ -36,7 +39,6 @@ public class BeverageListRepository {
                 if (response.isSuccessful()) {
                     Log.d(TAG, response.body().getBeverages().toString());
                     mBeverageList.setValue(response.body().getBeverages());
-
                 } else {
                     Log.e(TAG, response.message());
                 }
@@ -44,10 +46,14 @@ public class BeverageListRepository {
 
             @Override
             public void onFailure(Call<BeveragesResponse> call, Throwable t) {
-                //TODO: Show error message to user
                 Log.e(TAG, "Error getting beverages", t);
+                mException.setValue(t);
             }
         };
+    }
+
+    public MutableLiveData<Throwable> listenException() {
+        return mException;
     }
 
     public void fetchNonAlcoholicBeverages() {

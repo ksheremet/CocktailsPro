@@ -122,6 +122,17 @@ public class BeverageDetailsFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         mListener.showProgressBar();
+
+        mViewModel.listenException().observe(this, new Observer<Throwable>() {
+            @Override
+            public void onChanged(@Nullable Throwable throwable) {
+                if (throwable != null) {
+                    Log.e(TAG, throwable.getMessage());
+                    mListener.showError(getString(R.string.error_user_message));
+                }
+            }
+        });
+
         if (savedInstanceState == null) {
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override

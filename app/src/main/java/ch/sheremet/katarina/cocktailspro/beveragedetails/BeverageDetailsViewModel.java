@@ -11,6 +11,7 @@ public class BeverageDetailsViewModel extends ViewModel {
     private static final String TAG = BeverageDetailsActivity.class.getSimpleName();
 
     private LiveData<BeverageDetails> mBeverageDetails;
+    private LiveData<Throwable> mException;
     private BeverageDetailsRepository mBeverageDetailsRepo;
 
     public BeverageDetailsViewModel(BeverageDetailsRepository beverageDetailsRepo) {
@@ -22,6 +23,13 @@ public class BeverageDetailsViewModel extends ViewModel {
             mBeverageDetails = mBeverageDetailsRepo.getBeverageDetails();
         }
         return mBeverageDetails;
+    }
+
+    public LiveData<Throwable> listenException() {
+        if (mException == null) {
+            mException = mBeverageDetailsRepo.listenException();
+        }
+        return mException;
     }
 
     public void fetchBeverageByID(String id) {

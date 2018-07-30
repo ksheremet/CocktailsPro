@@ -1,6 +1,5 @@
 package ch.sheremet.katarina.cocktailspro.beveragedetails;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
 import android.support.v4.util.Pair;
@@ -24,11 +23,14 @@ public class BeverageDetailsRepository {
     private AppDatabase mDatabase;
     private Callback<BeverageDetailsResponse> mBeverageDetailsCallback;
     private MutableLiveData<BeverageDetails> mBeverageDetails;
+    private MutableLiveData<Throwable> mException;
 
     public BeverageDetailsRepository(ApiManager apiManager, AppDatabase database) {
         this.mApiManager = apiManager;
         this.mDatabase = database;
         this.mBeverageDetails = new MutableLiveData<>();
+        this.mException = new MutableLiveData<>();
+        this.mException.setValue(null);
 
         mBeverageDetailsCallback = new Callback<BeverageDetailsResponse>() {
             @Override
@@ -44,8 +46,8 @@ public class BeverageDetailsRepository {
 
             @Override
             public void onFailure(Call<BeverageDetailsResponse> call, Throwable t) {
-                //TODO: Show error message to user
                 Log.e(TAG, "Error getting beverage details", t);
+                mException.setValue(t);
             }
         };
     }
@@ -54,8 +56,12 @@ public class BeverageDetailsRepository {
         mApiManager.getBeverageByID(mBeverageDetailsCallback, id);
     }
 
-    public LiveData<BeverageDetails> getBeverageDetails() {
+    public MutableLiveData<BeverageDetails> getBeverageDetails() {
         return mBeverageDetails;
+    }
+
+    public MutableLiveData<Throwable> listenException() {
+        return mException;
     }
 
     public BeverageDetails getFavouriteBeverageDetails(String id) {
