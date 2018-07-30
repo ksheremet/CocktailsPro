@@ -62,6 +62,18 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
 
         showProgressBar();
 
+        if (savedInstanceState != null) {
+            mBeverageListFragment = (BeverageListFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_STATE);
+            initTabs(savedInstanceState.getInt(TAB_STATE));
+        } else {
+            initTabs(0);
+            mBeverageListFragment = new BeverageListFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.beverage_list_fragment, mBeverageListFragment)
+                    .commit();
+        }
+
         // Check favourite beverages of a user. If current tab is favourite - update Adapter
         // and display updated favourites list.
         mViewModel.fetchFavouriteBeverages().observe(this, new Observer<List<Beverage>>() {
@@ -75,17 +87,14 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
             }
         });
 
-        if (savedInstanceState != null) {
-            mBeverageListFragment = (BeverageListFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_STATE);
-            initTabs(savedInstanceState.getInt(TAB_STATE));
-        } else {
-            initTabs(0);
-            mBeverageListFragment = new BeverageListFragment();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.beverage_list_fragment, mBeverageListFragment)
-                    .commit();
-        }
+        mViewModel.getBeverageList().observe(this, new Observer<List<Beverage>>() {
+            @Override
+            public void onChanged(@Nullable List<Beverage> beverages) {
+                if (!mIsFavouriteShown) {
+                    mBeverageListFragment.setBeverageList(beverages);
+                }
+            }
+        });
     }
 
     @Override
@@ -100,6 +109,10 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
         TabLayout.Tab tab = mTabLayout.getTabAt(tabPosition);
         if (tab != null) {
             tab.select();
+        }
+
+        if (tabPosition == 3) {
+            mIsFavouriteShown = true;
         }
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -125,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
                         mIsFavouriteShown = true;
                         mBeverageListFragment.setBeverageList(mFavouriteBeverages);
                 }
-                mDataNestedScrollView.scrollTo(0,0);
+                mDataNestedScrollView.scrollTo(0, 0);
             }
 
             @Override
