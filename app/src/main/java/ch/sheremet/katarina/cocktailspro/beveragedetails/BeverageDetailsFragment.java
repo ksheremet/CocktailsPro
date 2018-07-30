@@ -1,6 +1,7 @@
 package ch.sheremet.katarina.cocktailspro.beveragedetails;
 
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,6 +28,7 @@ import ch.sheremet.katarina.cocktailspro.di.DaggerBeverageDetailsFragmentCompone
 import ch.sheremet.katarina.cocktailspro.model.Beverage;
 import ch.sheremet.katarina.cocktailspro.model.BeverageDetails;
 import ch.sheremet.katarina.cocktailspro.model.Ingredients;
+import ch.sheremet.katarina.cocktailspro.utils.AppExecutors;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -98,34 +100,36 @@ public class BeverageDetailsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_beverage_details, container, false);
         ButterKnife.bind(this, view);
 
         if (savedInstanceState == null) {
-            mIsFavourite = mViewModel.isBeverageFavourite(mBeverage);
-            if (mIsFavourite) {
-                mBeverageDetails = mViewModel.getFavouriteBeverageDetails(mBeverage.getId());
-                updateUI(mBeverageDetails);
-                Log.d(TAG, "Details fetched from DB: " + mBeverageDetails);
-            } else {
-                mViewModel.fetchBeverageByID(mBeverage.getId());
-                mViewModel.getBeverageDetails().observe(this, new Observer<BeverageDetails>() {
-                    @Override
-                    public void onChanged(@Nullable BeverageDetails beverageDetails) {
-                        if (beverageDetails != null) {
-                            mViewModel.getBeverageDetails().removeObserver(this);
-                            mBeverageDetails = beverageDetails;
-                            Log.d(TAG, beverageDetails.toString());
-                            updateUI(beverageDetails);
-                        }
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    mIsFavourite = mViewModel.isBeverageFavourite(mBeverage);
+                    Activity activity = getActivity();
+                    if (activity != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                setFavouriteButtonBackground(mIsFavourite);
+                                if (mIsFavourite) {
+                                    initFavouriteBeverageDetails();
+                                } else {
+                                    initBeverageDetailsFromNetwork();
+                                }
+                            }
+                        });
                     }
-                });
-            }
+                }
+            });
         } else {
             mIsFavourite = savedInstanceState.getBoolean(FAVOURITE_STATE);
+            setFavouriteButtonBackground(mIsFavourite);
             if (savedInstanceState.containsKey(BEVERAGE_DETAILS_STATE)) {
                 mBeverageDetails = savedInstanceState.getParcelable(BEVERAGE_DETAILS_STATE);
                 updateUI(mBeverageDetails);
@@ -133,8 +137,6 @@ public class BeverageDetailsFragment extends Fragment {
                 getActivity().finish();
             }
         }
-        setFavouriteButtonBackground(mIsFavourite);
-
         return view;
     }
 
@@ -143,6 +145,40 @@ public class BeverageDetailsFragment extends Fragment {
         super.onSaveInstanceState(outState);
         outState.putBoolean(FAVOURITE_STATE, mIsFavourite);
         outState.putParcelable(BEVERAGE_DETAILS_STATE, mBeverageDetails);
+    }
+
+    void initFavouriteBeverageDetails() {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mBeverageDetails = mViewModel.getFavouriteBeverageDetails(mBeverage.getId());
+                Activity activity = getActivity();
+                if (activity != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateUI(mBeverageDetails);
+                            Log.d(TAG, "Details fetched from DB: " + mBeverageDetails);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    void initBeverageDetailsFromNetwork() {
+        mViewModel.fetchBeverageByID(mBeverage.getId());
+        mViewModel.getBeverageDetails().observe(this, new Observer<BeverageDetails>() {
+            @Override
+            public void onChanged(@Nullable BeverageDetails beverageDetails) {
+                if (beverageDetails != null) {
+                    mViewModel.getBeverageDetails().removeObserver(this);
+                    mBeverageDetails = beverageDetails;
+                    updateUI(mBeverageDetails);
+                    Log.d(TAG, "Details fetched from network");
+                }
+            }
+        });
     }
 
     private void updateUI(BeverageDetails beverageDetails) {

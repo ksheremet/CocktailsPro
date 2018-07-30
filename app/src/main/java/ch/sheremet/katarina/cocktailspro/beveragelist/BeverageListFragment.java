@@ -92,7 +92,6 @@ public class BeverageListFragment extends Fragment {
         return view;
     }
 
-    //TODO: save state with rotation
     @Override
     public void onActivityCreated(final @Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
