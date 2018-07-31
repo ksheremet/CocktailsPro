@@ -10,4 +10,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SubtitleTextStyle">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:textSize">@dimen/subtitle_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

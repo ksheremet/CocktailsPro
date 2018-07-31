@@ -249,6 +249,7 @@ public class BeverageDetailsFragment extends Fragment {
 
         Picasso.get().load(beverageDetails.getThumbnailUrl()).error(R.drawable.def_cocktail_image)
                 .placeholder(R.drawable.def_cocktail_image).into(mThumbnail);
+        mThumbnail.setContentDescription(beverageDetails.getName());
     }
 
     @OnClick(R.id.add_to_favourite_iv)

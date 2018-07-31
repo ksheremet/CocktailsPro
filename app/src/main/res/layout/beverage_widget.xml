@@ -3,14 +3,14 @@
     android:id="@+id/widget_total"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#bbDEDFDE"
+    android:background="@color/widget_total_background"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/widget_layout_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#aaDEDFDE"
+        android:background="@color/widget_title_background"
         android:orientation="horizontal"
         android:paddingLeft="5dp"
         android:paddingRight="5dp">
@@ -27,10 +27,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingEnd="8dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingStart="8dp"
+            android:paddingEnd="@dimen/text_border_margin"
+            android:paddingLeft="@dimen/text_border_margin"
+            android:paddingRight="@dimen/text_border_margin"
+            android:paddingStart="@dimen/text_border_margin"
             android:text="@string/app_name"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/black"
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/text_margin"
             tools:text="Ingredients" />
 
         <LinearLayout
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="8dp"
+                android:layout_margin="@dimen/text_margin"
                 android:text="@string/widget_add_cocktails_to_favourites_label"
                 android:textAlignment="center" />
         </LinearLayout>

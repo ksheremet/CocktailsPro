@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_margin">16dp</dimen>
-
-    <!--
-Refer to App Widget Documentation for margin information
-http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
-    -->
+    <dimen name="border_margin">8dp</dimen>
     <dimen name="widget_margin">8dp</dimen>
+
+    <dimen name="app_bar_height">192dp</dimen>
+    <dimen name="recycler_view_bottom_padding">30dp</dimen>
+
+    <dimen name="card_elevation">10dp</dimen>
+    <dimen name="card_corner_radius">8dp</dimen>
+    <dimen name="card_margin">5dp</dimen>
+    <dimen name="subtitle_text_size">20sp</dimen>
+    <dimen name="text_border_margin">8dp</dimen>
+    <dimen name="normal_text_size">18sp</dimen>
+
+    <dimen name="text_indent">16dp</dimen>
+
 </resources>

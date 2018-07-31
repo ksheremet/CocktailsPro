@@ -42,12 +42,12 @@ public class BeverageListAdapter extends RecyclerView.Adapter<BeverageListAdapte
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mBeverage = mBeverages.get(position);
-        // TODO: Check cashing
         Picasso.get()
                 .load(mBeverages.get(position).getThumbnailUrl())
                 .error(R.drawable.def_cocktail_image)
                 .placeholder(R.drawable.def_cocktail_image)
                 .into(holder.mThumbnail);
+        holder.mThumbnail.setContentDescription(mBeverages.get(position).getName());
         holder.mBeverageName.setText(mBeverages.get(position).getName());
         holder.mBeverageView.setContentDescription(mBeverages.get(position).getName());
 

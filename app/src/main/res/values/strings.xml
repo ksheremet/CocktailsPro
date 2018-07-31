@@ -14,4 +14,10 @@
     <!--Ads -->
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="ads_init_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="add_to_favourites">Add to Favourites</string>
+    <string name="ingredients_label">Ingredients</string>
+    <string name="instructions_label">Instructions</string>
+    <string name="type_of_glass_label">Type of Glass:</string>
+    <string name="category_label">Category:</string>
+    <string name="iba_label">IBA:</string>
 </resources>
