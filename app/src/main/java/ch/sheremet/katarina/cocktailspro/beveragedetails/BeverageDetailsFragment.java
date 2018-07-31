@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crash.FirebaseCrash;
 import com.squareup.picasso.Picasso;
 
@@ -68,6 +69,7 @@ public class BeverageDetailsFragment extends Fragment {
     private Beverage mBeverage;
     private BeverageDetails mBeverageDetails;
     private OnDataInteraction mListener;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     public BeverageDetailsFragment() {
         // Required empty public constructor
@@ -102,6 +104,7 @@ public class BeverageDetailsFragment extends Fragment {
         } else {
             getActivity().finish();
         }
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
     }
 
     @Override
@@ -250,14 +253,20 @@ public class BeverageDetailsFragment extends Fragment {
 
     @OnClick(R.id.add_to_favourite_iv)
     protected void onFavouriteClick() {
+        //Report favourite/unfavourite drinks to Firebase Analitics
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, mBeverage.getId());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, mBeverage.getName());
         if (mIsFavourite) {
             mIsFavourite = false;
             mViewModel.deleteBeverageFromFavourite(mBeverage, mBeverageDetails);
-            Log.d(TAG, "Remove from favourites");
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "remove_favourite");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         } else {
             mIsFavourite = true;
             mViewModel.addBeverageToFavourite(mBeverage, mBeverageDetails);
-            Log.d(TAG, "Add to favourites");
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "add_favourite");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         }
         setFavouriteButtonBackground(mIsFavourite);
     }

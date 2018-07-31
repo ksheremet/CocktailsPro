@@ -65,6 +65,9 @@ dependencies {
     //Firebase Crashlitics
     implementation 'com.google.firebase:firebase-crash:11.8.0'
 
+    //Firebase Analitics
+    implementation 'com.google.firebase:firebase-core:11.8.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
