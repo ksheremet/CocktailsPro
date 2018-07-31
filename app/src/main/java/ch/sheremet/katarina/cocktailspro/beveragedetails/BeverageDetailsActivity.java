@@ -71,8 +71,8 @@ public class BeverageDetailsActivity extends AppCompatActivity implements Bevera
         setTitle(mBeverage.getName());
         Picasso.get()
                 .load(mBeverage.getThumbnailUrl())
-                .error(R.drawable.vuquyv1468876052)
-                .placeholder(R.drawable.vuquyv1468876052)
+                .error(R.drawable.def_cocktail_image)
+                .placeholder(R.drawable.def_cocktail_image)
                 .into((ImageView) findViewById(R.id.app_bar_image));
     }
 

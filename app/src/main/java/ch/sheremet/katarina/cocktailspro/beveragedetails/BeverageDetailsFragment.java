@@ -247,8 +247,8 @@ public class BeverageDetailsFragment extends Fragment {
             mIngredients.setText(builder.toString());
         }
 
-        Picasso.get().load(beverageDetails.getThumbnailUrl()).error(R.drawable.vuquyv1468876052)
-                .placeholder(R.drawable.vuquyv1468876052).into(mThumbnail);
+        Picasso.get().load(beverageDetails.getThumbnailUrl()).error(R.drawable.def_cocktail_image)
+                .placeholder(R.drawable.def_cocktail_image).into(mThumbnail);
     }
 
     @OnClick(R.id.add_to_favourite_iv)

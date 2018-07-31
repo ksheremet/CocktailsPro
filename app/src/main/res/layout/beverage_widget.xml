@@ -59,7 +59,7 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_gravity="center"
-                android:src="@drawable/vuquyv1468876052" />
+                android:src="@drawable/def_cocktail_image" />
 
             <TextView
                 android:id="@+id/widget_add_to_favourites_label"

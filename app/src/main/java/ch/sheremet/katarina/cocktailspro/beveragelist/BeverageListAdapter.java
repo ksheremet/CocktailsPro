@@ -45,8 +45,8 @@ public class BeverageListAdapter extends RecyclerView.Adapter<BeverageListAdapte
         // TODO: Check cashing
         Picasso.get()
                 .load(mBeverages.get(position).getThumbnailUrl())
-                .error(R.drawable.vuquyv1468876052)
-                .placeholder(R.drawable.vuquyv1468876052)
+                .error(R.drawable.def_cocktail_image)
+                .placeholder(R.drawable.def_cocktail_image)
                 .into(holder.mThumbnail);
         holder.mBeverageName.setText(mBeverages.get(position).getName());
         holder.mBeverageView.setContentDescription(mBeverages.get(position).getName());
