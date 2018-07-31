@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -128,6 +129,9 @@ public class BeverageDetailsFragment extends Fragment {
             public void onChanged(@Nullable Throwable throwable) {
                 if (throwable != null) {
                     Log.e(TAG, throwable.getMessage());
+                    //Report to Firebase Crashlitics
+                    FirebaseCrash.logcat(Log.ERROR, TAG, "Error fetching data from Network");
+                    FirebaseCrash.report(throwable);
                     mListener.showError(getString(R.string.error_user_message));
                 }
             }

@@ -62,6 +62,9 @@ dependencies {
     //Firebase Ads
     implementation 'com.google.firebase:firebase-ads:15.0.1'
 
+    //Firebase Crashlitics
+    implementation 'com.google.firebase:firebase-crash:11.8.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
