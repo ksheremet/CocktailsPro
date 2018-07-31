@@ -22,3 +22,6 @@ build/
 .idea/libraries
 .idea/caches
 .idea
+
+#Google Services
+/app/google-services.json
