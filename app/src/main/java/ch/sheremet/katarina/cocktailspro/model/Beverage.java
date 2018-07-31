@@ -75,10 +75,6 @@ public class Beverage implements Parcelable {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder("Beverage{");
-        stringBuilder.append("mId='").append(mId).append('\'')
-                .append(", mName='").append(mName).append('\'')
-                .append(", mThumbnailUrl='").append(mThumbnailUrl).append('\'');
-        return stringBuilder.toString();
+        return String.format("Beverage{mId='%s', mName='%s', mThumbnailUrl='%s'", mId, mName, mThumbnailUrl);
     }
 }

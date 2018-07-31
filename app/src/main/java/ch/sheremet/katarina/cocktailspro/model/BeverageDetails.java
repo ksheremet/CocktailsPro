@@ -133,19 +133,11 @@ public class BeverageDetails implements Parcelable {
         this.mCategory = mCategory;
     }
 
-    //TODO: StringBuilder
     @Override
     public String toString() {
-        return "BeverageDetails{" +
-                "mId='" + mId + '\'' +
-                ", mName='" + mName + '\'' +
-                ", mInstructions='" + mInstructions + '\'' +
-                ", mGlassType='" + mGlassType + '\'' +
-                ", mThumbnailUrl='" + mThumbnailUrl + '\'' +
-                ", mCategory='" + mCategory + '\'' +
-                ", mIBA='" + mIBA + '\'' +
-                ", mIngredients=" + mIngredients +
-                '}';
+        return String.format("BeverageDetails{mId='%s', mName='%s', mInstructions='%s', mGlassType='%s', " +
+                        "mThumbnailUrl='%s', mCategory='%s', mIBA='%s', mIngredients=%s}",
+                mId, mName, mInstructions, mGlassType, mThumbnailUrl, mCategory, mIBA, mIngredients);
     }
 
     @Override

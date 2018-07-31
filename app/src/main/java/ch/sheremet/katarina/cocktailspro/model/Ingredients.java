@@ -111,14 +111,9 @@ public class Ingredients implements Parcelable {
         this.mBeverageId = mBeverageId;
     }
 
-    //TODO: StringBuilder
     @Override
     public String toString() {
-        return "Ingredients{" +
-                "mId=" + mId +
-                ", mIngredient='" + mIngredient + '\'' +
-                ", mMeasure='" + mMeasure + '\'' +
-                ", mBeverageId='" + mBeverageId + '\'' +
-                '}';
+        return String.format("Ingredients{mId=%d, mIngredient='%s', mMeasure='%s', mBeverageId='%s'}",
+                mId, mIngredient, mMeasure, mBeverageId);
     }
 }
