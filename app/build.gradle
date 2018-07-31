@@ -55,7 +55,13 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
 
-    // Gradle
+    // Dagger
     implementation 'com.google.dagger:dagger:2.16'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
+
+    //Firebase Ads
+    implementation 'com.google.firebase:firebase-ads:15.0.1'
+
 }
+
+apply plugin: 'com.google.gms.google-services'

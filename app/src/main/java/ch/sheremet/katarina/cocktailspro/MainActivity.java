@@ -14,6 +14,10 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -70,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
             public void onChanged(@Nullable Throwable throwable) {
                 if (throwable != null) {
                     Log.e(TAG, throwable.getMessage());
-                   showError(getString(R.string.error_user_message));
+                    showError(getString(R.string.error_user_message));
                 }
             }
         });
@@ -111,6 +115,17 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
                 }
             }
         });
+
+        initAds();
+    }
+
+    private void initAds() {
+        AdView mAdView = findViewById(R.id.adView);
+        MobileAds.initialize(this,
+                getString(R.string.ads_init_id));
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        mAdView.loadAd(adRequest);
     }
 
     @Override
