@@ -7,4 +7,7 @@
 
     <string name="error_user_message">Error occurred. Try it later.</string>
     <string name="no_internet_user_message">You don\'t have the Internet access. Try it later.</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="widget_add_cocktails_to_favourites_label">Add cocktails to Favourites</string>
 </resources>

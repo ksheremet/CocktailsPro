@@ -1,0 +1,75 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget_total"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#bbDEDFDE"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/widget_layout_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#aaDEDFDE"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+        <ImageView
+            android:id="@+id/widget_img_launcher"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/beverage_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingEnd="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingStart="8dp"
+            android:text="@string/app_name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/widget_ingredient_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_marginStart="8dp"
+            tools:text="Ingredients" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/default_widget_image"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:src="@drawable/vuquyv1468876052" />
+
+            <TextView
+                android:id="@+id/widget_add_to_favourites_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:text="@string/widget_add_cocktails_to_favourites_label"
+                android:textAlignment="center" />
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

@@ -18,6 +18,9 @@ public abstract class BeverageDao {
     @Query("SELECT * FROM beverage_table")
     public abstract LiveData<List<Beverage>> getAllBeverages();
 
+    @Query("SELECT * FROM beverage_table")
+    public abstract List<Beverage> getAllBeveragesValue();
+
     @Transaction
     public void insert(Beverage beverage, BeverageDetails beverageDetails) {
         insertBeverage(beverage);
