@@ -140,6 +140,12 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
         outState.putInt(TAB_STATE, mTabLayout.getSelectedTabPosition());
     }
 
+    /**
+     * Init tabs and sets on click listener. If device
+     * was rotated the tap position retains
+     *
+     * @param tabPosition tab position
+     */
     private void initTabs(int tabPosition) {
         TabLayout.Tab tab = mTabLayout.getTabAt(tabPosition);
         if (tab != null) {
