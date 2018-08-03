@@ -69,11 +69,13 @@ public class BeverageDetailsActivity extends AppCompatActivity implements Bevera
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(mBeverage.getName());
         setTitle(mBeverage.getName());
+        ImageView appBarIV = findViewById(R.id.app_bar_image);
         Picasso.get()
                 .load(mBeverage.getThumbnailUrl())
                 .error(R.drawable.def_cocktail_image)
                 .placeholder(R.drawable.def_cocktail_image)
-                .into((ImageView) findViewById(R.id.app_bar_image));
+                .into(appBarIV);
+        appBarIV.setContentDescription(mBeverage.getName());
     }
 
     @Override

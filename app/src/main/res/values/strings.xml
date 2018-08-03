@@ -20,4 +20,9 @@
     <string name="type_of_glass_label">Type of Glass:</string>
     <string name="category_label">Category:</string>
     <string name="iba_label">IBA:</string>
+    <string name="default_beverage_cocktail_description">Beverage Image</string>
+    <string name="appbar_beverage_content_description">Image of beverage in App Bar</string>
+    <string name="add_to_favourites_content_description">Add Beverage to Favourites</string>
+    <string name="widget_launcher_content_description">Image of icon launcher in title of widget</string>
+    <string name="widget_default_image_content_description">Default image of beverage. It means that there are no favourite beverages to display</string>
 </resources>

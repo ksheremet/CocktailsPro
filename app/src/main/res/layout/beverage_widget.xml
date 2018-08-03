@@ -20,7 +20,8 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"
+            android:contentDescription="@string/widget_launcher_content_description"/>
 
         <TextView
             android:id="@+id/beverage_name"
@@ -56,6 +57,7 @@
 
             <ImageView
                 android:id="@+id/default_widget_image"
+                android:contentDescription="@string/widget_default_image_content_description"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_gravity="center"
