@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String FRAGMENT_STATE = "beverage_list_state";
     private static final String TAB_STATE = "tab_state";
+    private static final int NON_ALCOHOLIC_TAB_POSITION = 0;
+    private static final int FAVOURITES_TAB_POSITION = 3;
 
     private BeverageListFragment mBeverageListFragment;
 
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
             mBeverageListFragment = (BeverageListFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT_STATE);
             initTabs(savedInstanceState.getInt(TAB_STATE));
         } else {
-            initTabs(0);
+            initTabs(NON_ALCOHOLIC_TAB_POSITION);
             if (!isOnline()) {
                 showError(getString(R.string.no_internet_user_message));
             }
@@ -153,14 +155,14 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
             tab.select();
         }
 
-        if (tabPosition == 3) {
+        if (tabPosition == FAVOURITES_TAB_POSITION) {
             mIsFavouriteShown = true;
         }
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 3) {
+                if (tab.getPosition() == FAVOURITES_TAB_POSITION) {
                     showProgressBar();
                     mIsFavouriteShown = true;
                 } else {
@@ -173,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
                     }
                 }
                 switch (tab.getPosition()) {
-                    case 0:
+                    case NON_ALCOHOLIC_TAB_POSITION:
                         mViewModel.fetchNonAlcoholicBeverages();
                         break;
                     case 1:
@@ -182,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
                     case 2:
                         mViewModel.fetchCocoaBeverages();
                         break;
-                    case 3:
+                    case FAVOURITES_TAB_POSITION:
                         mBeverageListFragment.setBeverageList(mFavouriteBeverages);
                 }
                 mDataNestedScrollView.scrollTo(0, 0);

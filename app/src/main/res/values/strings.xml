@@ -29,4 +29,5 @@
     <string name="widget_default_image_content_description">Default image of beverage. It means that there are no favourite beverages to display</string>
 
     <string name="the_cocktail_db_api_key">1</string>
+    <string name="favourite_list_is_empty">Favourite list is empty</string>
 </resources>
