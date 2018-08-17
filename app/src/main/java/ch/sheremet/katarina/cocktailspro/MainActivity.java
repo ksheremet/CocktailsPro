@@ -14,9 +14,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.List;
@@ -28,6 +25,7 @@ import butterknife.ButterKnife;
 import ch.sheremet.katarina.cocktailspro.beveragedetails.BeverageDetailsActivity;
 import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListFragment;
 import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListViewModel;
+import ch.sheremet.katarina.cocktailspro.di.ApiModule;
 import ch.sheremet.katarina.cocktailspro.di.BeverageListViewModelModule;
 import ch.sheremet.katarina.cocktailspro.di.DaggerMainActivityComponent;
 import ch.sheremet.katarina.cocktailspro.di.MainActivityComponent;
@@ -65,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
 
         MainActivityComponent component = DaggerMainActivityComponent.builder()
                 .beverageListViewModelModule
-                        (new BeverageListViewModelModule(this)).build();
+                        (new BeverageListViewModelModule(this))
+                .apiModule(new ApiModule(getString(R.string.the_cocktail_db_api_key))).build();
         component.injectMainActivity(this);
 
         showProgressBar();
@@ -120,17 +119,19 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
             }
         });
 
-        initAds();
+        //TODO(ksheremet): Enable ads
+        //initAds();
     }
 
-    private void initAds() {
+    //TODO(ksheremet): Enable ads
+    /*private void initAds() {
         AdView mAdView = findViewById(R.id.adView);
         MobileAds.initialize(this,
                 getString(R.string.ads_init_id));
         AdRequest adRequest = new AdRequest.Builder()
                 .build();
         mAdView.loadAd(adRequest);
-    }
+    }*/
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

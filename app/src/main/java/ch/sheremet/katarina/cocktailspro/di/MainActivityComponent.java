@@ -6,7 +6,7 @@ import ch.sheremet.katarina.cocktailspro.MainActivity;
 import dagger.Component;
 
 @Singleton
-@Component(modules = BeverageListViewModelModule.class)
+@Component(modules = {BeverageListViewModelModule.class, ApiModule.class})
 public interface MainActivityComponent {
     void injectMainActivity(MainActivity mainActivity);
 }

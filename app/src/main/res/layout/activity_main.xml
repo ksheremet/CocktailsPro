@@ -78,6 +78,7 @@
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
 
+    <!--TODO(ksheremet): Setup release admob
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
@@ -86,5 +87,5 @@
         app:layout_anchor="@+id/include"
         ads:adSize="BANNER"
         ads:adUnitId="@string/banner_ad_unit_id"
-        app:layout_anchorGravity="bottom|center" />
+        app:layout_anchorGravity="bottom|center" /> -->
 </android.support.design.widget.CoordinatorLayout>

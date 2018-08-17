@@ -13,7 +13,7 @@ import ch.sheremet.katarina.cocktailspro.utils.ApiManager;
 import dagger.Module;
 import dagger.Provides;
 
-@Module(includes = ApiModule.class)
+@Module
 public class BeverageListViewModelModule {
 
     private FragmentActivity mLiveCircleOwner;

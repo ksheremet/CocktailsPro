@@ -14,6 +14,7 @@
     <!--Ads -->
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="ads_init_id">ca-app-pub-3940256099942544~3347511713</string>
+
     <string name="add_to_favourites">Add to Favourites</string>
     <string name="ingredients_label">Ingredients</string>
     <string name="instructions_label">Instructions</string>
@@ -25,4 +26,6 @@
     <string name="add_to_favourites_content_description">Add Beverage to Favourites</string>
     <string name="widget_launcher_content_description">Image of icon launcher in title of widget</string>
     <string name="widget_default_image_content_description">Default image of beverage. It means that there are no favourite beverages to display</string>
+
+    <string name="the_cocktail_db_api_key">1</string>
 </resources>

@@ -18,7 +18,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class ApiModule {
 
-    private static final String BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1/";
+    private static final String BASE_URL = "https://www.thecocktaildb.com/api/json/v1/";
+    private String urlString;
+
+
+    public ApiModule(final String apiKey) {
+        this.urlString = BASE_URL + apiKey + "/";
+    }
 
     @Singleton
     @Provides
@@ -32,7 +38,7 @@ public class ApiModule {
                              GsonConverterFactory gsonConverterFactory) {
         return new Retrofit.Builder()
                 .client(okHttpClient)
-                .baseUrl(BASE_URL)
+                .baseUrl(urlString)
                 .addConverterFactory(gsonConverterFactory)
                 .build();
     }

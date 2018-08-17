@@ -27,6 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ch.sheremet.katarina.cocktailspro.R;
+import ch.sheremet.katarina.cocktailspro.di.ApiModule;
 import ch.sheremet.katarina.cocktailspro.di.BeverageDetailsFragmentComponent;
 import ch.sheremet.katarina.cocktailspro.di.BeverageDetailsViewModelModule;
 import ch.sheremet.katarina.cocktailspro.di.DaggerBeverageDetailsFragmentComponent;
@@ -95,7 +96,8 @@ public class BeverageDetailsFragment extends Fragment {
 
         BeverageDetailsFragmentComponent component = DaggerBeverageDetailsFragmentComponent.builder()
                 .beverageDetailsViewModelModule
-                        (new BeverageDetailsViewModelModule(getActivity())).build();
+                        (new BeverageDetailsViewModelModule(getActivity()))
+                .apiModule(new ApiModule(getString(R.string.the_cocktail_db_api_key))).build();
         component.injectBeverageDetailsFragment(this);
 
         Bundle bundle = this.getArguments();

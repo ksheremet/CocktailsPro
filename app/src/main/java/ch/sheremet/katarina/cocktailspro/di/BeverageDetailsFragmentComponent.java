@@ -6,7 +6,7 @@ import ch.sheremet.katarina.cocktailspro.beveragedetails.BeverageDetailsFragment
 import dagger.Component;
 
 @Singleton
-@Component(modules = BeverageDetailsViewModelModule.class)
+@Component(modules = {BeverageDetailsViewModelModule.class, ApiModule.class})
 public interface BeverageDetailsFragmentComponent {
     void injectBeverageDetailsFragment(BeverageDetailsFragment fragment);
 }
