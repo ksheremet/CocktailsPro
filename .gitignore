@@ -25,3 +25,9 @@ build/
 
 #Google Services
 /app/google-services.json
+
+#Cocktails APIkey
+app/src/release/res/values/strings.xml
+
+#SignKey
+signing/
