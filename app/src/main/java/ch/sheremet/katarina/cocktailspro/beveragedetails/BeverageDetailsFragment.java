@@ -168,7 +168,6 @@ public class BeverageDetailsFragment extends Fragment {
         } else {
             mIsFavourite = savedInstanceState.getBoolean(FAVOURITE_STATE);
             updateFavouriteUI();
-            updateFavouriteLabelText();
             if (savedInstanceState.containsKey(BEVERAGE_DETAILS_STATE)) {
                 mBeverageDetails = savedInstanceState.getParcelable(BEVERAGE_DETAILS_STATE);
                 updateUI(mBeverageDetails);
@@ -278,22 +277,11 @@ public class BeverageDetailsFragment extends Fragment {
     }
 
     private void updateFavouriteUI() {
-        updateFavouriteButtonBackground();
-        updateFavouriteLabelText();
-    }
-
-    private void updateFavouriteButtonBackground() {
         if (mIsFavourite) {
             mFavouriteImage.setImageResource(android.R.drawable.btn_star_big_on);
-        } else {
-            mFavouriteImage.setImageResource(android.R.drawable.btn_star_big_off);
-        }
-    }
-
-    private void updateFavouriteLabelText() {
-        if (mIsFavourite) {
             mFavouriteLabel.setText(getString(R.string.remove_from_favourites));
         } else {
+            mFavouriteImage.setImageResource(android.R.drawable.btn_star_big_off);
             mFavouriteLabel.setText(getString(R.string.add_to_favourites));
         }
     }
