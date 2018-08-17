@@ -50,8 +50,10 @@ public class BeverageDetailsFragment extends Fragment {
 
     @BindView(R.id.detail_beverage_name_tv)
     TextView mName;
-    @BindView(R.id.add_to_favourite_iv)
-    ImageView mAddToFavourite;
+    @BindView(R.id.favourite_image)
+    ImageView mFavouriteImage;
+    @BindView(R.id.favourite_label)
+    TextView mFavouriteLabel;
     @BindView(R.id.details_ingredients_tv)
     TextView mIngredients;
     @BindView(R.id.detail_instructions_tv)
@@ -152,7 +154,7 @@ public class BeverageDetailsFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                setFavouriteButtonBackground(mIsFavourite);
+                                updateFavouriteUI();
                                 if (mIsFavourite) {
                                     initFavouriteBeverageDetails();
                                 } else {
@@ -165,7 +167,8 @@ public class BeverageDetailsFragment extends Fragment {
             });
         } else {
             mIsFavourite = savedInstanceState.getBoolean(FAVOURITE_STATE);
-            setFavouriteButtonBackground(mIsFavourite);
+            updateFavouriteUI();
+            updateFavouriteLabelText();
             if (savedInstanceState.containsKey(BEVERAGE_DETAILS_STATE)) {
                 mBeverageDetails = savedInstanceState.getParcelable(BEVERAGE_DETAILS_STATE);
                 updateUI(mBeverageDetails);
@@ -254,9 +257,9 @@ public class BeverageDetailsFragment extends Fragment {
         mThumbnail.setContentDescription(beverageDetails.getName());
     }
 
-    @OnClick(R.id.add_to_favourite_iv)
+    @OnClick(R.id.favourite_image)
     protected void onFavouriteClick() {
-        //Report favourite/unfavourite drinks to Firebase Analitics
+        //Report favourite/non-favourite drinks to Firebase Analytics
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, mBeverage.getId());
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, mBeverage.getName());
@@ -271,14 +274,27 @@ public class BeverageDetailsFragment extends Fragment {
             bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "add_favourite");
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         }
-        setFavouriteButtonBackground(mIsFavourite);
+        updateFavouriteUI();
     }
 
-    private void setFavouriteButtonBackground(boolean isFavourite) {
-        if (isFavourite) {
-            mAddToFavourite.setImageResource(android.R.drawable.btn_star_big_on);
+    private void updateFavouriteUI() {
+        updateFavouriteButtonBackground();
+        updateFavouriteLabelText();
+    }
+
+    private void updateFavouriteButtonBackground() {
+        if (mIsFavourite) {
+            mFavouriteImage.setImageResource(android.R.drawable.btn_star_big_on);
         } else {
-            mAddToFavourite.setImageResource(android.R.drawable.btn_star_big_off);
+            mFavouriteImage.setImageResource(android.R.drawable.btn_star_big_off);
+        }
+    }
+
+    private void updateFavouriteLabelText() {
+        if (mIsFavourite) {
+            mFavouriteLabel.setText(getString(R.string.remove_from_favourites));
+        } else {
+            mFavouriteLabel.setText(getString(R.string.add_to_favourites));
         }
     }
 

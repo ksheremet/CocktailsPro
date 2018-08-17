@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/colorPrimaryLight">
 
     <!--Content description set programmatically in code -->
@@ -13,8 +13,8 @@
         android:layout_height="150dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:scaleType="centerCrop"
         android:contentDescription="@string/default_beverage_cocktail_description"
+        android:scaleType="centerCrop"
         app:layout_constraintDimensionRatio="3:4"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,9 +23,9 @@
         android:id="@+id/detail_beverage_name_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/text_border_margin"
         android:layout_marginStart="@dimen/text_border_margin"
         android:layout_marginTop="@dimen/text_indent"
+        android:layout_marginEnd="@dimen/text_border_margin"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textStyle="bold"
@@ -38,8 +38,8 @@
         android:id="@+id/detail_instructions_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/text_border_margin"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/text_border_margin"
         android:textSize="@dimen/normal_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -49,12 +49,12 @@
 
 
     <ImageView
-        android:id="@+id/add_to_favourite_iv"
+        android:id="@+id/favourite_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/text_border_margin"
         android:layout_marginStart="@dimen/text_border_margin"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="@dimen/text_border_margin"
         android:contentDescription="@string/add_to_favourites_content_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/detail_beverage_thumbnail_iv"
@@ -62,24 +62,24 @@
         app:srcCompat="@android:drawable/btn_star_big_off" />
 
     <TextView
-        android:id="@+id/add_to_favourite_label"
+        android:id="@+id/favourite_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/text_border_margin"
         android:layout_marginTop="8dp"
         android:text="@string/add_to_favourites"
         android:textSize="@dimen/normal_text_size"
-        app:layout_constraintEnd_toEndOf="@+id/add_to_favourite_iv"
-        app:layout_constraintStart_toStartOf="@+id/add_to_favourite_iv"
-        app:layout_constraintTop_toBottomOf="@+id/add_to_favourite_iv" />
+        app:layout_constraintEnd_toEndOf="@+id/favourite_image"
+        app:layout_constraintStart_toStartOf="@+id/favourite_image"
+        app:layout_constraintTop_toBottomOf="@+id/favourite_image" />
 
     <TextView
         android:id="@+id/ingredients_label"
+        style="@style/SubtitleTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/text_indent"
         android:text="@string/ingredients_label"
-        style="@style/SubtitleTextStyle"
         app:layout_constraintStart_toStartOf="@+id/detail_beverage_thumbnail_iv"
         app:layout_constraintTop_toBottomOf="@+id/detail_beverage_thumbnail_iv"
         tools:text="Ingredients" />
@@ -88,8 +88,8 @@
         android:id="@+id/details_ingredients_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/text_border_margin"
         android:layout_marginTop="@dimen/text_indent"
+        android:layout_marginEnd="@dimen/text_border_margin"
         android:textSize="@dimen/normal_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/ingredients_label"
@@ -98,22 +98,22 @@
 
     <TextView
         android:id="@+id/instructions_label"
+        style="@style/SubtitleTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/text_indent"
         android:text="@string/instructions_label"
-        style="@style/SubtitleTextStyle"
         app:layout_constraintStart_toStartOf="@+id/details_ingredients_tv"
         app:layout_constraintTop_toBottomOf="@+id/details_ingredients_tv"
         tools:text="Instructions" />
 
     <TextView
         android:id="@+id/glass_type_label"
+        style="@style/SubtitleTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/text_indent"
         android:text="@string/type_of_glass_label"
-        style="@style/SubtitleTextStyle"
         app:layout_constraintStart_toStartOf="@+id/detail_instructions_tv"
         app:layout_constraintTop_toBottomOf="@+id/detail_instructions_tv" />
 
@@ -130,11 +130,11 @@
 
     <TextView
         android:id="@+id/detail_category_label"
+        style="@style/SubtitleTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/text_indent"
         android:text="@string/category_label"
-        style="@style/SubtitleTextStyle"
         app:layout_constraintStart_toStartOf="@+id/glass_type_label"
         app:layout_constraintTop_toBottomOf="@+id/glass_type_label" />
 
@@ -151,12 +151,12 @@
 
     <TextView
         android:id="@+id/iba_label"
+        style="@style/SubtitleTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/text_indent"
         android:layout_marginTop="@dimen/text_indent"
+        android:layout_marginBottom="@dimen/text_indent"
         android:text="@string/iba_label"
-        style="@style/SubtitleTextStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/detail_category_label"
         app:layout_constraintTop_toBottomOf="@+id/detail_category_label" />

@@ -67,7 +67,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-ads:15.0.1'
     //Firebase Crashlitics
     implementation 'com.google.firebase:firebase-crash:16.0.1'
-    //Firebase Analitics
+    //Firebase Analytics
     implementation 'com.google.firebase:firebase-core:16.0.1'
 }
 
