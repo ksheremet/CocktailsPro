@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder;
 
 import javax.inject.Singleton;
 
+import ch.sheremet.katarina.cocktailspro.BuildConfig;
 import ch.sheremet.katarina.cocktailspro.model.BeverageDetails;
 import ch.sheremet.katarina.cocktailspro.utils.ApiManager;
 import ch.sheremet.katarina.cocktailspro.utils.BeverageDetailsDeserializer;
@@ -46,8 +47,14 @@ public class ApiModule {
     @Singleton
     @Provides
     public OkHttpClient okHttpClient(HttpLoggingInterceptor httpLoggingInterceptor) {
-        return new OkHttpClient.Builder()
-                .addInterceptor(httpLoggingInterceptor)
+        OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
+        if (BuildConfig.DEBUG) {
+            return okHttpClientBuilder
+                    // Add interceptor in debug only
+                    .addInterceptor(httpLoggingInterceptor)
+                    .build();
+        }
+        return okHttpClientBuilder
                 .build();
     }
 
