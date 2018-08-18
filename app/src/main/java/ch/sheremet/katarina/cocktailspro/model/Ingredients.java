@@ -8,6 +8,9 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+
+import java.util.Locale;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
@@ -111,9 +114,10 @@ public class Ingredients implements Parcelable {
         this.mBeverageId = mBeverageId;
     }
 
+    @NonNull
     @Override
     public String toString() {
-        return String.format("Ingredients{mId=%d, mIngredient='%s', mMeasure='%s', mBeverageId='%s'}",
+        return String.format(Locale.getDefault(), "Ingredients{mId=%d, mIngredient='%s', mMeasure='%s', mBeverageId='%s'}",
                 mId, mIngredient, mMeasure, mBeverageId);
     }
 }

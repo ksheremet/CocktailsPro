@@ -32,6 +32,7 @@ public class BeverageListAdapter extends RecyclerView.Adapter<BeverageListAdapte
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -40,7 +41,7 @@ public class BeverageListAdapter extends RecyclerView.Adapter<BeverageListAdapte
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         holder.mBeverage = mBeverages.get(position);
         Picasso.get()
                 .load(mBeverages.get(position).getThumbnailUrl())
@@ -51,14 +52,11 @@ public class BeverageListAdapter extends RecyclerView.Adapter<BeverageListAdapte
         holder.mBeverageName.setText(mBeverages.get(position).getName());
         holder.mBeverageView.setContentDescription(mBeverages.get(position).getName());
 
-        holder.mBeverageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onBeverageClicked(holder.mBeverage);
-                }
+        holder.mBeverageView.setOnClickListener(v -> {
+            if (null != mListener) {
+                // Notify the active callbacks interface (the activity, if the
+                // fragment is attached to one) that an item has been selected.
+                mListener.onBeverageClicked(holder.mBeverage);
             }
         });
     }

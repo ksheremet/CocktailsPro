@@ -24,7 +24,6 @@ public class BeverageDetailsActivity extends AppCompatActivity implements Bevera
     private static final String BEVERAGE_PARAM = "beverage";
 
     private Beverage mBeverage;
-    private BeverageDetailsFragment mDetailsFragment;
     @BindView(R.id.progress_bar)
     ProgressBar mProgressBar;
     @BindView(R.id.error_message)
@@ -52,7 +51,7 @@ public class BeverageDetailsActivity extends AppCompatActivity implements Bevera
         ButterKnife.bind(this);
 
         if (savedInstanceState == null) {
-            mDetailsFragment = BeverageDetailsFragment.newInstance(mBeverage);
+            BeverageDetailsFragment mDetailsFragment = BeverageDetailsFragment.newInstance(mBeverage);
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.beverage_details_fragment, mDetailsFragment)

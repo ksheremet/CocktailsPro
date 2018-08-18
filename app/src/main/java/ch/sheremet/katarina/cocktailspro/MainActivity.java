@@ -1,11 +1,9 @@
 package ch.sheremet.katarina.cocktailspro;
 
-import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +12,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.firebase.crash.FirebaseCrash;
+import com.crashlytics.android.Crashlytics;
 
 import java.util.List;
 
@@ -69,16 +67,13 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
 
         showProgressBar();
 
-        mViewModel.listenException().observe(this, new Observer<Throwable>() {
-            @Override
-            public void onChanged(@Nullable Throwable throwable) {
-                if (throwable != null) {
-                    Log.e(TAG, throwable.getMessage());
-                    //Report to Firebase Crashlitics
-                    FirebaseCrash.logcat(Log.ERROR, TAG, "Error fetching data from Network");
-                    FirebaseCrash.report(throwable);
-                    showError(getString(R.string.error_user_message));
-                }
+        mViewModel.listenException().observe(this, throwable -> {
+            if (throwable != null) {
+                Log.e(TAG, throwable.getMessage());
+                //Report to Firebase Crashlytics
+                Crashlytics.log(Log.ERROR, TAG, "Error fetching data from Network");
+                Crashlytics.logException(throwable);
+                showError(getString(R.string.error_user_message));
             }
         });
 
@@ -99,23 +94,17 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
 
         // Check favourite beverages of a user. If current tab is favourite - update Adapter
         // and display updated favourites list.
-        mViewModel.fetchFavouriteBeverages().observe(this, new Observer<List<Beverage>>() {
-            @Override
-            public void onChanged(@Nullable List<Beverage> beverages) {
-                mFavouriteBeverages = beverages;
-                if (mIsFavouriteShown) {
-                    mBeverageListFragment.setBeverageList(beverages);
-                    Log.d(TAG, "Favourite Beverages: " + beverages);
-                }
+        mViewModel.fetchFavouriteBeverages().observe(this, beverages -> {
+            mFavouriteBeverages = beverages;
+            if (mIsFavouriteShown) {
+                mBeverageListFragment.setBeverageList(beverages);
+                Log.d(TAG, "Favourite Beverages: " + beverages);
             }
         });
 
-        mViewModel.getBeverageList().observe(this, new Observer<List<Beverage>>() {
-            @Override
-            public void onChanged(@Nullable List<Beverage> beverages) {
-                if (!mIsFavouriteShown) {
-                    mBeverageListFragment.setBeverageList(beverages);
-                }
+        mViewModel.getBeverageList().observe(this, beverages -> {
+            if (!mIsFavouriteShown) {
+                mBeverageListFragment.setBeverageList(beverages);
             }
         });
 

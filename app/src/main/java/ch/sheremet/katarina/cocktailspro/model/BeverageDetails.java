@@ -133,6 +133,7 @@ public class BeverageDetails implements Parcelable {
         this.mCategory = mCategory;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return String.format("BeverageDetails{mId='%s', mName='%s', mInstructions='%s', mGlassType='%s', " +

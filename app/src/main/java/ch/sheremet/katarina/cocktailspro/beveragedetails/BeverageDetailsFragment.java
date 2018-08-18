@@ -17,8 +17,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.crash.FirebaseCrash;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -131,38 +131,29 @@ public class BeverageDetailsFragment extends Fragment {
 
         mListener.showProgressBar();
 
-        mViewModel.listenException().observe(this, new Observer<Throwable>() {
-            @Override
-            public void onChanged(@Nullable Throwable throwable) {
-                if (throwable != null) {
-                    Log.e(TAG, throwable.getMessage());
-                    //Report to Firebase Crashlitics
-                    FirebaseCrash.logcat(Log.ERROR, TAG, "Error fetching data from Network");
-                    FirebaseCrash.report(throwable);
-                    mListener.showError(getString(R.string.error_user_message));
-                }
+        mViewModel.listenException().observe(this, throwable -> {
+            if (throwable != null) {
+                Log.e(TAG, throwable.getMessage());
+                //Report to Firebase Crashlitics
+                Crashlytics.log(Log.ERROR, TAG, "Error fetching data from Network");
+                Crashlytics.logException(throwable);
+                mListener.showError(getString(R.string.error_user_message));
             }
         });
 
         if (savedInstanceState == null) {
-            AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                @Override
-                public void run() {
-                    mIsFavourite = mViewModel.isBeverageFavourite(mBeverage);
-                    Activity activity = getActivity();
-                    if (activity != null) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                updateFavouriteUI();
-                                if (mIsFavourite) {
-                                    initFavouriteBeverageDetails();
-                                } else {
-                                    initBeverageDetailsFromNetwork();
-                                }
-                            }
-                        });
-                    }
+            AppExecutors.getInstance().diskIO().execute(() -> {
+                mIsFavourite = mViewModel.isBeverageFavourite(mBeverage);
+                Activity activity = getActivity();
+                if (activity != null) {
+                    getActivity().runOnUiThread(() -> {
+                        updateFavouriteUI();
+                        if (mIsFavourite) {
+                            initFavouriteBeverageDetails();
+                        } else {
+                            initBeverageDetailsFromNetwork();
+                        }
+                    });
                 }
             });
         } else {
@@ -194,20 +185,14 @@ public class BeverageDetailsFragment extends Fragment {
     }
 
     void initFavouriteBeverageDetails() {
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                mBeverageDetails = mViewModel.getFavouriteBeverageDetails(mBeverage.getId());
-                Activity activity = getActivity();
-                if (activity != null) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateUI(mBeverageDetails);
-                            Log.d(TAG, "Details fetched from DB: " + mBeverageDetails);
-                        }
-                    });
-                }
+        AppExecutors.getInstance().diskIO().execute(() -> {
+            mBeverageDetails = mViewModel.getFavouriteBeverageDetails(mBeverage.getId());
+            Activity activity = getActivity();
+            if (activity != null) {
+                getActivity().runOnUiThread(() -> {
+                    updateUI(mBeverageDetails);
+                    Log.d(TAG, "Details fetched from DB: " + mBeverageDetails);
+                });
             }
         });
     }
