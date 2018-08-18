@@ -2,6 +2,7 @@ package ch.sheremet.katarina.cocktailspro.beveragedetails;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 import android.util.Log;
 
@@ -45,7 +46,7 @@ public class BeverageDetailsRepository {
             }
 
             @Override
-            public void onFailure(Call<BeverageDetailsResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<BeverageDetailsResponse> call, @NonNull Throwable t) {
                 Log.e(TAG, "Error getting beverage details", t);
                 mException.setValue(t);
             }
