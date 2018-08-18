@@ -2,6 +2,7 @@ package ch.sheremet.katarina.cocktailspro.beveragelist;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.List;
@@ -34,8 +35,8 @@ public class BeverageListRepository {
 
         mBeveragesCallback = new Callback<BeveragesResponse>() {
             @Override
-            public void onResponse(final Call<BeveragesResponse> call,
-                                   final Response<BeveragesResponse> response) {
+            public void onResponse(@NonNull final Call<BeveragesResponse> call,
+                                   @NonNull final Response<BeveragesResponse> response) {
                 if (response.isSuccessful()) {
                     Log.d(TAG, response.body().getBeverages().toString());
                     mBeverageList.setValue(response.body().getBeverages());
@@ -45,7 +46,7 @@ public class BeverageListRepository {
             }
 
             @Override
-            public void onFailure(Call<BeveragesResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<BeveragesResponse> call, @NonNull Throwable t) {
                 Log.e(TAG, "Error getting beverages", t);
                 mException.setValue(t);
             }

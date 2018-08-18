@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 android {
     signingConfigs {
@@ -18,6 +19,11 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
     }
     buildTypes {
         release {
@@ -65,9 +71,9 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
     //Firebase Ads
     implementation 'com.google.firebase:firebase-ads:15.0.1'
-    //Firebase Crashlitics
-    implementation 'com.google.firebase:firebase-crash:16.0.1'
-    //Firebase Analitics
+    //Firebase Crashlytics
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4'
+    //Firebase Analytics
     implementation 'com.google.firebase:firebase-core:16.0.1'
 }
 

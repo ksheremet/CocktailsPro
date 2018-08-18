@@ -79,17 +79,12 @@ public class BeverageListFragment extends Fragment {
                     savedInstanceState.getParcelable(RECYCLER_VIEW_STATE);
             // Use delayed runnable.
             // https://discussions.udacity.com/t/trouble-maintaining-recyclerview-position-upon-orientation-change/608216/12
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mRecyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
-                }
-            }, 600);
+            new Handler().postDelayed(() -> mRecyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState), 600);
         }
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(RECYCLER_VIEW_STATE, mRecyclerView
                 .getLayoutManager().onSaveInstanceState());
