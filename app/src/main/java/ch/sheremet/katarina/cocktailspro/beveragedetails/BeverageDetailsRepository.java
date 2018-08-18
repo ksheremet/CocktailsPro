@@ -35,7 +35,8 @@ public class BeverageDetailsRepository {
 
         mBeverageDetailsCallback = new Callback<BeverageDetailsResponse>() {
             @Override
-            public void onResponse(Call<BeverageDetailsResponse> call, Response<BeverageDetailsResponse> response) {
+            public void onResponse(@NonNull Call<BeverageDetailsResponse> call,
+                                   @NonNull Response<BeverageDetailsResponse> response) {
                 if (response.isSuccessful()) {
                     mBeverageDetails.setValue(response.body().getBeverageDetail());
                 } else {
