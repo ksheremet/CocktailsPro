@@ -31,7 +31,7 @@ public class Beverage implements Parcelable {
         mThumbnailUrl = in.readString();
     }
 
-    public Beverage(String id, String name, String thumbnailUrl) {
+    public Beverage(@NonNull String id, String name, String thumbnailUrl) {
         this.mId = id;
         this.mName = name;
         this.mThumbnailUrl = thumbnailUrl;
@@ -73,6 +73,7 @@ public class Beverage implements Parcelable {
         return mThumbnailUrl;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return String.format("Beverage{mId='%s', mName='%s', mThumbnailUrl='%s'", mId, mName, mThumbnailUrl);

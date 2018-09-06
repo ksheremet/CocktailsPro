@@ -46,11 +46,7 @@ public class BeverageDetailsViewModel extends ViewModel {
 
     public boolean isBeverageFavourite(Beverage beverage) {
         Beverage fetchedBeverage = mBeverageDetailsRepo.fetchBeverageByIdFromDb(beverage.getId());
-        if (fetchedBeverage==null) {
-            return false;
-        } else {
-            return true;
-        }
+        return fetchedBeverage != null;
     }
 
     public BeverageDetails getFavouriteBeverageDetails(String id) {
