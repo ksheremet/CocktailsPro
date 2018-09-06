@@ -48,6 +48,8 @@ public class BeverageListFragment extends Fragment {
         if (beverageList == null) {
             mListener.showError(getString(R.string.error_user_message));
             Log.d(TAG, "List of beverages is null");
+        } else if (beverageList.size() == 0) {
+            mListener.showError(getString(R.string.favourite_list_is_empty));
         } else {
             mListener.showData();
             mBeveragesAdapter.setBeverages(beverageList);
