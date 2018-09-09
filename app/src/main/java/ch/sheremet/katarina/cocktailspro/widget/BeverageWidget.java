@@ -58,7 +58,7 @@ public class BeverageWidget extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        FavouriteBeverageIntentService.startFetchingFavouriteBeverage(context);
+        FavouriteBeverageJobIntentService.startFetchingFavouriteBeverage(context);
     }
 
     public static void updateBeverage(Context context, AppWidgetManager appWidgetManager,
