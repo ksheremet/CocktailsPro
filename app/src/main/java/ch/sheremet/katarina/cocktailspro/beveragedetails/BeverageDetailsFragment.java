@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -35,6 +34,7 @@ import ch.sheremet.katarina.cocktailspro.model.Beverage;
 import ch.sheremet.katarina.cocktailspro.model.BeverageDetails;
 import ch.sheremet.katarina.cocktailspro.model.Ingredients;
 import ch.sheremet.katarina.cocktailspro.utils.AppExecutors;
+import ch.sheremet.katarina.cocktailspro.utils.GlideApp;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -236,8 +236,11 @@ public class BeverageDetailsFragment extends Fragment {
             mIngredients.setText(builder.toString());
         }
 
-        Picasso.get().load(beverageDetails.getThumbnailUrl()).error(R.drawable.def_cocktail_image)
-                .placeholder(R.drawable.def_cocktail_image).into(mThumbnail);
+        GlideApp.with(getContext())
+                .load(beverageDetails.getThumbnailUrl())
+                .error(R.drawable.def_cocktail_image)
+                .placeholder(R.drawable.def_cocktail_image)
+                .into(mThumbnail);
         mThumbnail.setContentDescription(beverageDetails.getName());
     }
 

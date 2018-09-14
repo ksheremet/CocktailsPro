@@ -12,12 +12,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.sheremet.katarina.cocktailspro.R;
 import ch.sheremet.katarina.cocktailspro.model.Beverage;
+import ch.sheremet.katarina.cocktailspro.utils.GlideApp;
 
 public class BeverageDetailsActivity extends AppCompatActivity implements BeverageDetailsFragment.OnDataInteraction {
 
@@ -69,7 +68,7 @@ public class BeverageDetailsActivity extends AppCompatActivity implements Bevera
         collapsingToolbarLayout.setTitle(mBeverage.getName());
         setTitle(mBeverage.getName());
         ImageView appBarIV = findViewById(R.id.app_bar_image);
-        Picasso.get()
+        GlideApp.with(this)
                 .load(mBeverage.getThumbnailUrl())
                 .error(R.drawable.def_cocktail_image)
                 .placeholder(R.drawable.def_cocktail_image)
