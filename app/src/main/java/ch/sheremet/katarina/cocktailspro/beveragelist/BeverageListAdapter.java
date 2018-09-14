@@ -1,6 +1,5 @@
 package ch.sheremet.katarina.cocktailspro.beveragelist;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,16 +15,16 @@ import butterknife.ButterKnife;
 import ch.sheremet.katarina.cocktailspro.R;
 import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListFragment.OnBeverageSelected;
 import ch.sheremet.katarina.cocktailspro.model.Beverage;
-import ch.sheremet.katarina.cocktailspro.utils.GlideApp;
+import ch.sheremet.katarina.cocktailspro.utils.GlideRequests;
 
 public class BeverageListAdapter extends RecyclerView.Adapter<BeverageListAdapter.ViewHolder> {
 
-    private Context mContext;
+    private GlideRequests mGlideApp;
     private List<Beverage> mBeverages;
     private final BeverageListFragment.OnBeverageSelected mListener;
 
-    public BeverageListAdapter(Context context, OnBeverageSelected listener) {
-        mContext = context;
+    public BeverageListAdapter(GlideRequests glideApp, OnBeverageSelected listener) {
+        mGlideApp = glideApp;
         mListener = listener;
     }
 
@@ -45,8 +44,7 @@ public class BeverageListAdapter extends RecyclerView.Adapter<BeverageListAdapte
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         holder.mBeverage = mBeverages.get(position);
-        GlideApp.with(mContext)
-                .load(mBeverages.get(position).getThumbnailUrl())
+        mGlideApp.load(mBeverages.get(position).getThumbnailUrl())
                 .error(R.drawable.def_cocktail_image)
                 .placeholder(R.drawable.def_cocktail_image)
                 .into(holder.mThumbnail);

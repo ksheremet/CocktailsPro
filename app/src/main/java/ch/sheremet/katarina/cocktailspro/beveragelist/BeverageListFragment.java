@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.sheremet.katarina.cocktailspro.R;
 import ch.sheremet.katarina.cocktailspro.model.Beverage;
+import ch.sheremet.katarina.cocktailspro.utils.GlideApp;
 
 /**
  * A fragment representing a list of Items.
@@ -67,7 +68,7 @@ public class BeverageListFragment extends Fragment {
                 getResources().getInteger(R.integer.grid_columns));
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-        mBeveragesAdapter = new BeverageListAdapter(getContext(), mListener);
+        mBeveragesAdapter = new BeverageListAdapter(GlideApp.with(this), mListener);
         mRecyclerView.setAdapter(mBeveragesAdapter);
 
         return view;

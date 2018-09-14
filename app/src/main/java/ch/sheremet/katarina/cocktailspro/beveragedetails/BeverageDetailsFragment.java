@@ -236,7 +236,7 @@ public class BeverageDetailsFragment extends Fragment {
             mIngredients.setText(builder.toString());
         }
 
-        GlideApp.with(getContext())
+        GlideApp.with(this)
                 .load(beverageDetails.getThumbnailUrl())
                 .error(R.drawable.def_cocktail_image)
                 .placeholder(R.drawable.def_cocktail_image)
