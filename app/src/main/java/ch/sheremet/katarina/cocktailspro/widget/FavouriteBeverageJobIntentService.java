@@ -1,11 +1,11 @@
 package ch.sheremet.katarina.cocktailspro.widget;
 
-import android.app.IntentService;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
+import android.support.v4.app.JobIntentService;
 
 import java.util.List;
 import java.util.Random;
@@ -15,29 +15,24 @@ import ch.sheremet.katarina.cocktailspro.model.BeverageDetails;
 import ch.sheremet.katarina.cocktailspro.model.database.AppDatabase;
 import ch.sheremet.katarina.cocktailspro.model.database.BeverageDao;
 
-public class FavouriteBeverageIntentService extends IntentService {
+public class FavouriteBeverageJobIntentService extends JobIntentService {
     public static final String ACTION_FETCH_FAVOURITE_BEVERAGE = "ch.sheremet.katarina.cocktailspro.fetch_favourite_beverage";
-
     /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
+     * Unique job ID for this service.
      */
-    public FavouriteBeverageIntentService() {
-        super("FavouriteBeverageIntentService");
-    }
+    static final int BEVERAGE_JOB_ID = 1002;
 
     public static void startFetchingFavouriteBeverage(Context context) {
-        Intent intent = new Intent(context, FavouriteBeverageIntentService.class);
+        Intent intent = new Intent(context, FavouriteBeverageJobIntentService.class);
         intent.setAction(ACTION_FETCH_FAVOURITE_BEVERAGE);
-        context.startService(intent);
+        enqueueWork(context, FavouriteBeverageJobIntentService.class, BEVERAGE_JOB_ID, intent);
     }
 
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-        if (intent != null) {
-            final String action = intent.getAction();
-            if (ACTION_FETCH_FAVOURITE_BEVERAGE.equals(action)) {
-                handleFetchingFavouriteBeverage();
-            }
+    protected void onHandleWork(@NonNull Intent intent) {
+        final String action = intent.getAction();
+        if (ACTION_FETCH_FAVOURITE_BEVERAGE.equals(action)) {
+            handleFetchingFavouriteBeverage();
         }
     }
 
@@ -47,7 +42,7 @@ public class FavouriteBeverageIntentService extends IntentService {
         BeverageDetails beverageDetails = null;
 
         // Choose random favourite beverage
-        if (beverageList != null && beverageList.size()!=0) {
+        if (beverageList != null && beverageList.size() != 0) {
             Random rand = new Random();
             int randValue = rand.nextInt(beverageList.size());
             beverageDetails = beverageDao.getBeverageDetailsWithIngredients(beverageList.get(randValue).getId());
