@@ -1,7 +1,7 @@
 package ch.sheremet.katarina.cocktailspro.di;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.support.v4.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.FragmentActivity;
 
 import javax.inject.Singleton;
 

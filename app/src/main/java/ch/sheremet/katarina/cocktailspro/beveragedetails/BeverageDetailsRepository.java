@@ -1,9 +1,9 @@
 package ch.sheremet.katarina.cocktailspro.beveragedetails;
 
-import android.arch.lifecycle.MutableLiveData;
+import androidx.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.v4.util.Pair;
+import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 import android.util.Log;
 
 import ch.sheremet.katarina.cocktailspro.model.Beverage;
