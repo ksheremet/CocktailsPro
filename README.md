@@ -4,7 +4,7 @@
 
 Are you preparing for a party or just want to cook something yummy for yourself? It means that this is the right app for you. Enjoy refreshing non-alcoholic drinks, explore and create different excellent cocktails, relish hot chocolate drinks. Add whatever you like to your favorites to have an offline access.
 
-<a href='https://play.google.com/store/apps/details?id=ch.sheremet.katarina.cocktailspro'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='64px'/></a>
+<a href='https://play.google.com/store/apps/details?id=ch.sheremet.katarina.cocktailspro&referrer=utm_source%3Dgithub'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='64px'/></a>
 
 ## List of alcoholic, non-alcoholic, favorite, cacao drinks
 
