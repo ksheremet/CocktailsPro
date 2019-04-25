@@ -55,8 +55,8 @@ dependencies {
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
     //ButterKnife
-    implementation 'com.jakewharton:butterknife:9.0.0-rc2'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc2'
+    implementation 'com.jakewharton:butterknife:10.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
     //Room
     implementation 'androidx.room:room-runtime:2.1.0-alpha03'
     annotationProcessor "androidx.room:room-compiler:2.1.0-alpha03"
