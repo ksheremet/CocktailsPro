@@ -71,9 +71,9 @@ dependencies {
     //Firebase Ads
     implementation 'com.google.firebase:firebase-ads:15.0.1'
     //Firebase Crashlytics
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
     //Firebase Analytics
-    implementation 'com.google.firebase:firebase-core:16.0.3'
+    implementation 'com.google.firebase:firebase-core:16.0.8'
 }
 
 apply plugin: 'com.google.gms.google-services'
