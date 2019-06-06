@@ -43,6 +43,9 @@
         <service android:name=".widget.FavouriteBeverageJobIntentService"
             android:permission="android.permission.BIND_JOB_SERVICE"
             android:exported="false"/>
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-4266011398557603~7371826703" />
     </application>
 
 </manifest>

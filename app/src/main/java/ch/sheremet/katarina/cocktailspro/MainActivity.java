@@ -4,6 +4,10 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.tabs.TabLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -110,19 +114,17 @@ public class MainActivity extends AppCompatActivity implements BeverageListFragm
             }
         });
 
-        //TODO(ksheremet): Enable ads
-        //initAds();
+        initAds();
     }
 
-    //TODO(ksheremet): Enable ads
-    /*private void initAds() {
+    private void initAds() {
         AdView mAdView = findViewById(R.id.adView);
         MobileAds.initialize(this,
-                getString(R.string.ads_init_id));
+                getString(R.string.addmob_app_id));
         AdRequest adRequest = new AdRequest.Builder()
                 .build();
         mAdView.loadAd(adRequest);
-    }*/
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

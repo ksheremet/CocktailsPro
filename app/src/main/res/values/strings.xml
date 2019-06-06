@@ -11,9 +11,9 @@
     <string name="add_widget">Add widget</string>
     <string name="widget_add_cocktails_to_favourites_label">Add cocktails to Favourites</string>
 
-    <!--Ads -->
+    <!-- Ads Test account -->
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ads_init_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="addmob_app_id">ca-app-pub-4266011398557603~7371826703</string>
 
     <string name="add_to_favourites">Add to Favourites</string>
     <string name="remove_from_favourites">Remove from Favourites</string>
@@ -30,4 +30,5 @@
 
     <string name="the_cocktail_db_api_key">1</string>
     <string name="favourite_list_is_empty">Favourite list is empty</string>
+
 </resources>
