@@ -17,9 +17,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -236,7 +236,7 @@ public class BeverageDetailsFragment extends Fragment {
             mIngredients.setText(builder.toString());
         }
 
-        Picasso.get().load(beverageDetails.getThumbnailUrl()).error(R.drawable.def_cocktail_image)
+        Glide.with(this).load(beverageDetails.getThumbnailUrl()).error(R.drawable.def_cocktail_image)
                 .placeholder(R.drawable.def_cocktail_image).into(mThumbnail);
         mThumbnail.setContentDescription(beverageDetails.getName());
     }

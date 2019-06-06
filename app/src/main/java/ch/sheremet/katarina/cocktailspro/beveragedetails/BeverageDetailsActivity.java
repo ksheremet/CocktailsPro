@@ -3,6 +3,8 @@ package ch.sheremet.katarina.cocktailspro.beveragedetails;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,8 +13,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,7 +69,7 @@ public class BeverageDetailsActivity extends AppCompatActivity implements Bevera
         collapsingToolbarLayout.setTitle(mBeverage.getName());
         setTitle(mBeverage.getName());
         ImageView appBarIV = findViewById(R.id.app_bar_image);
-        Picasso.get()
+        Glide.with(this)
                 .load(mBeverage.getThumbnailUrl())
                 .error(R.drawable.def_cocktail_image)
                 .placeholder(R.drawable.def_cocktail_image)

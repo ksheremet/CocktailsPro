@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ public class BeverageListAdapter extends RecyclerView.Adapter<BeverageListAdapte
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         holder.mBeverage = mBeverages.get(position);
-        Picasso.get()
+        Glide.with(holder.itemView)
                 .load(mBeverages.get(position).getThumbnailUrl())
                 .error(R.drawable.def_cocktail_image)
                 .placeholder(R.drawable.def_cocktail_image)
