@@ -31,3 +31,6 @@ app/src/release/res/values/strings.xml
 
 #SignKey
 signing/
+
+#Build files
+/app/release/
