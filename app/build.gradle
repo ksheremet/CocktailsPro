@@ -26,10 +26,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }
+        debug {
+            // getting error: Cannot fit requested classes in a single dex file.
+            // https://developer.android.com/studio/build/multidex
+            // minifyEnabled true (used with release) will fix this by getting rid of unused method calls, but this will hide debugging info on crash
+            multiDexEnabled true
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    dataBinding {
+        enabled = true
     }
 }
 

@@ -1,27 +1,25 @@
 package ch.sheremet.katarina.cocktailspro.beveragelist;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ch.sheremet.katarina.cocktailspro.R;
 import ch.sheremet.katarina.cocktailspro.beveragelist.BeverageListFragment.OnBeverageSelected;
+import ch.sheremet.katarina.cocktailspro.databinding.BeverageItemBinding;
 import ch.sheremet.katarina.cocktailspro.model.Beverage;
 
 public class BeverageListAdapter extends RecyclerView.Adapter<BeverageListAdapter.ViewHolder> {
 
-    private List<Beverage> mBeverages;
     private final BeverageListFragment.OnBeverageSelected mListener;
+    private List<Beverage> mBeverages;
 
     public BeverageListAdapter(OnBeverageSelected listener) {
         mListener = listener;
@@ -35,30 +33,15 @@ public class BeverageListAdapter extends RecyclerView.Adapter<BeverageListAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.beverage_item, parent, false);
-        return new ViewHolder(view);
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        BeverageItemBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.beverage_item,
+                parent, false);
+        return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        holder.mBeverage = mBeverages.get(position);
-        Glide.with(holder.itemView)
-                .load(mBeverages.get(position).getThumbnailUrl())
-                .error(R.drawable.def_cocktail_image)
-                .placeholder(R.drawable.def_cocktail_image)
-                .into(holder.mThumbnail);
-        holder.mThumbnail.setContentDescription(mBeverages.get(position).getName());
-        holder.mBeverageName.setText(mBeverages.get(position).getName());
-        holder.mBeverageView.setContentDescription(mBeverages.get(position).getName());
-
-        holder.mBeverageView.setOnClickListener(v -> {
-            if (null != mListener) {
-                // Notify the active callbacks interface (the activity, if the
-                // fragment is attached to one) that an item has been selected.
-                mListener.onBeverageClicked(holder.mBeverage);
-            }
-        });
+        holder.bind(mBeverages.get(position));
     }
 
     @Override
@@ -70,17 +53,24 @@ public class BeverageListAdapter extends RecyclerView.Adapter<BeverageListAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        final View mBeverageView;
-        @BindView(R.id.beverage_poster_iv)
-        ImageView mThumbnail;
-        @BindView(R.id.beverage_name_tv)
-        TextView mBeverageName;
-        Beverage mBeverage;
+        private final BeverageItemBinding binding;
 
-        ViewHolder(View view) {
-            super(view);
-            mBeverageView = view;
-            ButterKnife.bind(this, view);
+        ViewHolder(BeverageItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
+
+        public void bind(Beverage beverage) {
+            binding.setBeverage(beverage);
+            binding.setEventHandler(mListener);
+            Glide.with(binding.getRoot())
+                    .load(beverage.getThumbnailUrl())
+                    .error(R.drawable.def_cocktail_image)
+                    .placeholder(R.drawable.def_cocktail_image)
+                    .into(binding.beveragePosterIv);
+            //This forces the bindings to run immediately instead of delaying them until the next frame.
+            binding.executePendingBindings();
+        }
+
     }
 }
